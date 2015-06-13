@@ -1,0 +1,145 @@
+{include file='ck1sh/_partials/head_inc.html'}
+<body>
+	<!-- 顶部警告框 -->
+	<div class="topWarn"></div>
+	<div class="wrap">
+		<ul class="breadcrumb" style="background-color: transparent;">
+            <li><a href="http://demo.chukou1.cn/Client/Home/Home.aspx">首页</a>&nbsp;<span class="divider">/</span></li>
+            <li><a href="?r=oms/home">Selling Helper</a>&nbsp;<span class="divider">/</span></li>
+            <li><a href="?r=oms/shorder/normal&platform={$platform}">{$platformName}</a>&nbsp;<span class="divider">/</span></li>
+            <li class="active">设置</li>
+        </ul>
+		<div class="tabHead">
+			<!-- 基本参数设置 start-->
+			<div class="setBox" style="padding:15px;">
+			 <form id="nosubmit_form" onSubmit="return false;"> 
+					<h3>基本参数设置</h3>
+					<div class="setBoxBody">
+						<p>
+							<span>订单的获取方式：</span>
+							<label><input type="radio" name="ORDERDOWN" value="100" {if $config.1 eq 100} checked {/if} id="orderauto">自动同步</label>
+							<label><input type="radio" name="ORDERDOWN" value="101" {if $config.1 eq 101} checked {/if} id="orderupload">手动上传</label>
+						</p>
+
+						<p>
+							<span>上传挂号方式：</span>
+							<label><input type="radio" name="UPLOAD_TRACKING" value="300" {if $config.3 eq 300} checked {/if} id="auto">自动上传挂号到速卖通  </label>
+							<label><input type="radio" name="UPLOAD_TRACKING" value="301" {if $config.3 eq 301} checked {/if} id="upload">手动上传 </label>
+							<a href="http://www.chukou1.com/doc/sellinghelper/UploadAliexpressTrackingFilesForCK1.pdf" target="_blank">上传挂号帮助»</a>
+						</p>
+						<p>
+							<span>SKU：</span>
+							<select name="SKU_PRINT" id="Config_SKUSettings" class="input-xlarge">
+								<option value="401" {if $config.4 eq 401} selected{/if} class='CustomLabel'>等于CustomLabel</option>
+								<option value="402" {if $config.4 eq 402} selected{/if} class='CustomLabel'>是CustomLabel的一部分（使用分隔符）</option>
+								<option value="403" {if $config.4 eq 403} selected{/if} class='CustomLabel'>是CustomLabel的一部分（前几位字符）</option>
+							</select>
+							<b class="help-inline">*</b>
+							<a href="http://www.chukou1.com/doc/sellinghelper/SKUInfoMapping(AliExpress).pdf" target="_blank">SKU相关说明»</a>
+						</p>
+						<p id='skupart1' style="display:none;"><span>分隔符号：</span>
+				     		<input name="SKU_SEPARATOR" type="text" value="{$config.5}" maxlength="16">
+				     		<b class="help-inline">* 截取第一个分隔符之前的部分</b>
+						</p>
+
+					     <p id='skupart2' style="display:none;"><span>SKU长度：</span>
+					     	<input name="SKU_PREV_LENGTH" type="text" value="{$config.6}" maxlength="16">
+					     	<b class="help-inline">* 截取固定长度的前面部分</b>
+					     </p>
+						<p class='skuJudge' style="height:20px;text-align:right;font-size:12px;margin:0;padding:0px 45px;display:none"></p>
+						<p>
+							<span>直发订单自定义标识：</span>
+							<label>
+				            <input name="DIRECT_SHIPMENTS_ORDER_MARK" type="radio" value='702'{if $config.7 eq 702} checked{/if}>
+				                                 订单号</label>
+				          	<label>
+				            <input name="DIRECT_SHIPMENTS_ORDER_MARK" type="radio" value='703'{if $config.7 eq 703} checked{/if}>
+				            	SKU</label>
+				           	<label>
+				            <input name="DIRECT_SHIPMENTS_ORDER_MARK" type="radio" value='704'{if $config.7 eq 704} checked{/if}>
+				            	订单号+SKU</label>
+				          	<label>
+				            <input name="DIRECT_SHIPMENTS_ORDER_MARK" type="radio" value='707'{if $config.7 eq 707} checked{/if}>
+				            	订单号+SKU+Seller</label>
+						</p>
+						<p>
+							<span></span>
+							<label>
+				            <input name="DIRECT_SHIPMENTS_ORDER_MARK" type="radio" value='705'{if $config.7 eq 705} checked{/if}>
+				           		 申报名称</label>
+				          <label>
+				            <input name="DIRECT_SHIPMENTS_ORDER_MARK" type="radio" value='706'{if $config.7 eq 706} checked{/if}>
+				           		 订单号+申报名称</label>
+				          <label>
+				            <input name="DIRECT_SHIPMENTS_ORDER_MARK" type="radio" value='708'{if $config.7 eq 708} checked{/if}>
+				            	订单号+申报名称+Seller</label>
+						</p>
+						<input type="button" name="" value="保存" id="saveconfig" class="btn btn-primary">
+						<a href="?r=oms/shorder/normal&platform=102">返回上一级</a>
+					</div>
+					</form>
+			</div>
+			<!-- 基本参数设置 end-->
+		</div>
+	</div>
+	{literal}
+	<script>
+		"use strict";
+		require(['util'], function(util){
+			$('body').attr('id', 'ebSet');
+			$('#saveconfig').on('click', function(){
+				if($('#Config_SKUSettings').val() == 402){
+					if($('[name=SKU_SEPARATOR]').val() == ''){
+						$('[name=SKU_SEPARATOR]').addClass('redBorder');
+						util.showTips('error','分隔符号不能为空！');
+						return;
+					}else{
+						$('[name=SKU_SEPARATOR]').removeClass('redBorder');
+					}
+				}
+				if($('#Config_SKUSettings').val() == 403){
+					if(isNaN($('[name=SKU_PREV_LENGTH]').val()) || $('[name=SKU_PREV_LENGTH]').val() == 0 ){
+						$('[name=SKU_PREV_LENGTH]').addClass('redBorder');
+						util.showTips('error','SKU长度必须是数字而且大于0！');
+						return;
+					}else{
+						$('[name=SKU_PREV_LENGTH]').removeClass('redBorder');
+					}
+				}
+				$.post('index.php?r=oms/shaliexpress/SetOption',$('#nosubmit_form').serialize(),
+					function(data){
+						if(data>0){
+							util.showTips('success', '修改成功！！！');
+						}else if(data==0){
+							util.showTips('info', '数据没有改变！');
+						}else{
+							util.showTips('error', '修改失败！！！');
+						}
+					});
+			});
+
+			$('#Config_SKUSettings').on('click', function(){
+				displayCog();
+			});
+
+			$('#return').on('click', function(){
+				history.back();
+			});
+
+			displayCog();
+			function displayCog(){
+				if($('[name=SKU_PRINT]').val() === 402){
+					$('#skupart1').show();
+					$('#skupart2').hide();
+				} else if($('[name=SKU_PRINT]').val() === 403){
+					$('#skupart2').show();
+					$('#skupart1').hide();
+				}else{
+					$('#skupart2,#skupart1').hide();
+				}
+			}
+		});
+	</script>
+	{/literal}
+</body>
+</html>

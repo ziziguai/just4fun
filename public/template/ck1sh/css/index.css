@@ -1,0 +1,1063 @@
+* {
+	padding: 0;
+	margin: 0;
+}
+ul,
+li {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+label {
+	display: inline;
+}
+label input[type="checkbox"]{
+	vertical-align:-3px;
+	margin-left:2px;
+}
+.clear {
+	clear: both;
+}
+.redBorder{border:1px solid red !important;}
+.input100,
+.input200 {
+	width: 100px;
+	margin: 0;
+}
+.input200 {
+	width: 200px;
+}
+
+.btn.disabled {cursor: no-drop;}
+
+/* 虚线框 start */
+.dashed-box {
+	border: 1px dashed black;
+	padding: 5px 15px;
+	margin-top: 10px;
+}
+/* 虚线框内容列表 */
+.dashed-box ol li{
+	list-style-type: decimal;
+}
+/* 虚线框 end */
+
+/*加载层--大--loading*/
+.loading {
+	position: fixed;
+	display: none;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 999999;
+	background: rgba(255, 255, 255, 0.5) url(../img/loader.gif) no-repeat center;
+}
+/*加载层--小--sLoading*/
+.sLoading{
+	display:none;
+	width:100%;
+	height:31px;
+	background:url(../img/loader.gif) no-repeat left center;
+	padding-left:40px;
+}
+
+/*顶部警告框--start*/
+.topWarn {
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 30px;
+	line-height: 30px;
+	color: #000000;
+	width: 100%;
+	background: rgba(90, 198, 149, 0.6);
+	text-align: center;
+	z-index: 99999;
+	display: none;
+}
+/*顶部警告框--end*/
+/*==========共用样式--start==========================*/
+/*弹窗背景*/
+.TCGB {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	z-index: 99;
+	display: none;
+}
+/*弹窗上边框*/
+.TCCONBorTop {border-top: 8px solid #24748C;}
+/*弹窗内容*/
+.TCCON {
+	position:relative;
+	background: #fff;
+	/*border: 1px solid #666;*/
+	border-top: 8px solid #24748C;
+	border-radius: 10px;
+	position: absolute;
+	left: 50%;
+	top: 30px;
+	font-size: 12px;
+	z-index: 2000;
+	box-shadow: 2px 2px 10px #666;
+}
+
+span.on-right{
+  display:inline-block;
+  width:100%;
+  float:none !important;
+  text-align:right !important;
+}
+
+/*弹窗标题*/
+.TCCON h2 {
+	padding: 0 15px 0 15px;
+	font-size: 18px;
+	border-bottom: 1px solid #ccc;
+	height: 40px;
+	line-height: 40px;
+}
+.TCCON h2 b {
+	float: right;
+	background: #2A85A0;
+	border-radius: 5px;
+	color: #fff;
+	padding: 0 10px;
+	font-size: 12px;
+	display: block;
+	height: 30px;
+	line-height: 30px;
+	cursor: pointer;
+}
+.TCCON span {
+	display: inline-block;
+	margin-right: 10px;
+	text-align: left;
+	word-wrap: break-word;
+}
+.TCCON h2 b:hover {
+	background: #2D6987;
+}
+/*弹窗尾部-保存-取消等按钮*/
+
+.TCFooter {
+	width: 100%;
+	height: 45px;
+	line-height: 45px;
+	text-align: right;
+	background: #f5f5f5;
+	position: relative;
+	bottom: 0;
+	border-top: 1px solid #ccc;
+	border-radius: 0 0 10px 10px;
+}
+.TCFooter b {
+	margin-right: 60px;
+}
+.TCFooter .btn {
+	margin-right: 5px;
+}
+.TCFooter .btn:last-child {
+	margin-right: 20px;
+}
+/*300PX宽度弹窗*/
+
+.TC300 .TCCON {
+	width: 300px;
+	margin-left: -150px;
+}
+.TC300 .TCBody {
+	padding: 15px;
+}
+/*400PX宽度弹窗*/
+
+.TC400 .TCCON {
+	width: 400px;
+	margin-left: -200px;
+}
+.TC400 .TCBody {
+	padding: 15px;
+}
+/*600PX宽度弹窗*/
+
+.TC600 .TCCON {
+	width: 600px;
+	margin-left: -300px;
+}
+.TC600 .TCBody {
+	padding: 15px 15px 30px 30px;
+}
+/*800PX宽度弹窗*/
+.TC800 .TCCON {
+	width: 800px;
+	margin-left: -400px;
+	height: 90%;
+	overflow: auto;
+}
+.TC800 .TCBody {
+	padding: 5px 15px 30px 30px;
+}
+/*参数设置*/
+
+.setBox {
+	border: 1px solid #e5e5e5;
+	margin: 20px;
+}
+.setBox p {
+	margin-bottom: 20px;
+}
+.setBox p span {
+	display: inline-block;
+	width: 150px;
+	text-align: right;
+}
+.setBox label {
+	margin-right: 10px;
+}
+.setBox p input[type='radio'] {
+	margin-top: -3px;
+	margin-right: 4px;
+}
+.SetFooter {
+	text-align: right;
+	width: 500px;
+}
+/*==========共用样式--end==========================*/
+/*固定搜索按钮宽度 start--*/
+/*div.btn-group a.btn:first-child{width:60px;overflow:hidden;padding-right:20px;}
+div.btn-group button.dropdown-toggle{height:30px;}
+div.btn-group button.dropdown-toggle span:first-child{display:inline-block;width:50px;height:20px;line-height:20px;overflow:hidden;padding-right:5px;}*/
+/*固定搜索按钮宽度 end--*/
+
+.wrap {
+	padding:10px 10px 10px 5px;
+}
+/*顶部面包屑--start*/
+
+.topNav {
+	color: #999;
+}
+.topNav a {
+	color: #0088CC;
+}
+/*顶部面包屑--end*/
+/*选项卡导航--start*/
+.tabHead {
+	margin-top: 20px;
+	border-bottom: 1px solid #ddd;
+}
+.tabHead ul li {
+	float: left;
+	margin-right: 2px;
+	margin-bottom: -1px;
+}
+.tabHead ul li a {
+	display: block;
+	float: left;
+	padding: 10px 15px;
+	color: #0088CC;
+	text-decoration: none;
+	border-radius: 5px 5px 0px 0px;
+	border: 1px solid #fff;
+	border-bottom: 1px solid #ddd;
+}
+.tabHead ul li a:hover {
+	background: #eee;
+}
+.tabHead ul .tabActive {
+	border: 1px solid #ddd;
+	border-bottom: 1px solid #fff;
+	color: #666;
+}
+.tabHead .tabHeadRight {
+	float: right;
+}
+/*选项卡导航--end*/
+.content {
+	border: 1px solid #d7d7d7;
+	border-top: none;
+	padding: 15px 0 0;
+}
+/*-----选项卡头部内容-搜索-筛选---start------*/
+.tabBody .tabBodyHead {
+	margin: 15px;
+	/*padding-bottom:20px;*/
+}
+.tabBody .search input {
+	margin: 0;
+}
+.tabBody .tabBodyHead .searchLeft {
+	float: left;
+}
+.tabBody .tabBodyHead .searchLeft select {
+	width: 150px;
+	margin-right: 5px;
+	float: left;
+}
+.tabBody .tabBodyHead .search .floatLeft {
+	float: left;
+	margin-right: 10px;
+}
+/* ----批量导入*/
+#paginationNavBar {display: none;}
+#fproduct {margin: 5px 0 0;}
+#fproduct table {margin-bottom: 0;}
+
+#fproduct p {
+	display: none;
+	margin-top: 10px;
+	text-align: center;
+}
+#fproduct .error-box {color: #f00;}
+/* ----*/
+.search-form.pull-left {
+	margin-left: 6px;
+}
+.tabBody .tabBodyHead .search form input[type='text'] {
+	border-radius: 0;
+}
+.tabBody .tabBodyHead .sel {
+	margin-top: 10px;
+}
+.tabBody .tabBodyHead .sel .nav {
+	margin: 0;
+}
+.tabBody .tabBodyHead .sel .nav li a {
+	background: #E8E8E8;
+	color: #666;
+}
+.tabBody .tabBodyHead .sel .nav li a:hover,
+.tabBody .tabBodyHead .sel .nav .active a {
+	color: #fff;
+	background: #0088cc;
+}
+.tabBody .tabBodyHead .sel .selLeft {
+	float: left;
+}
+.tabBody .tabBodyHead .sel .selRight {
+	float: right;
+}
+/*-----选项卡头部内容-搜索-筛选---end------*/
+/*-----表格样式---start------*/
+.tabBody table td:first-child,
+.tabBody table th:first-child {
+	border-left: 0;
+}
+
+.tabBody table tr .noteTd {
+	line-height: 10px;
+	text-align: left;
+}
+
+.tabBody table thead tr {
+	background: #EDEDED;
+	font-weight: bold;
+}
+.tabBody table tr td,
+.tabBody table tr th {
+	border-left: 1px solid #DDD;
+	border-top: 1px solid #DDD;
+	border-bottom: 1px solid #DDD;
+	height: 30px;
+	line-height: 30px;
+	font-size:12px;
+}
+.tabBody table tr th {
+	border-top: 1px solid red;
+}
+/*-----表格样式---end------*/
+/*-----分页样式---start------*/
+
+.tabBody .pagination select {
+	width: 70px;
+}
+.tabBody .pagination #Pager1 {
+	box-shadow: none;
+}
+.tabBody .pagination li a {
+	padding: 0 15px;
+	height:35px;
+	line-height:35px;
+	cursor: pointer;
+}
+.tabBody .pagination .select-size {
+	height: 35px;
+	line-height: 35px;
+
+	padding: 0 12px;
+	border: solid 1px #DDD;
+	border-left: 0;
+	border-radius: 0 4px 4px 0;
+	margin-right: 10px;
+	display: inline-block;
+}
+.tabBody .pagination .select-size select {
+	margin-bottom: 0px;
+}
+/*-----分页样式---end------*/
+/*=待下单页面样式    ebWaitOrder =*/
+/* ========== */
+/*高级查询弹窗 start*/
+
+#ebWaitOrder .searchTCCon {
+	width: 400px;
+	margin-left: -230px;
+}
+#ebWaitOrder .searchTCBody {
+	padding: 15px;
+}
+#ebWaitOrder .searchTCBody span {
+	min-width: 60px;
+}
+#ebWaitOrder .searchTCBody select {
+	width: 100px;
+	font-size: 12px;
+}
+#ebWaitOrder .searchTCBody input {
+	width: 150px;
+	font-size: 12px;
+}
+#ebWaitOrder .searchTCFooter .searchBtn {
+	background: #2A85A0;
+	color: #fff;
+	border: none;
+	padding: 5px 10px;
+	border-radius: 5px;
+}
+/*高级查询弹窗 end*/
+/*-下载标签弹窗-start-*/
+
+.dowAddTagTCConBody input {
+	margin-top: -2px;
+	margin-right: 3px;
+}
+/*-下载标签弹窗-end-*/
+/*-下载捡货清单弹窗-start-*/
+
+.PickGoodsTCConBody input {
+	margin-top: -2px;
+	margin-right: 3px;
+}
+/*-下载捡货清单弹窗-end-*/
+/*-下载挂号弹窗-start-*/
+
+.registeredTCConBody {
+	padding: 15px;
+}
+/*-下载挂号弹窗-end-*/
+/*编辑弹窗-----start--*/
+
+.editTC {
+	/*display: none;*/
+}
+.editTC .editHead{
+	height:30px;
+}
+.editTC .editHeadActive{
+	position:fixed;
+	background:#fff;
+	width:80%;
+	top:38px;
+	border-bottom:5px solid #ddd;
+	padding:10px 0;
+}
+.editTC .editHead .close{opacity: 1;}
+/*当滚动条滚动时，关闭按钮固定在窗口顶部*/
+
+.editTC .editbox {
+/*	max-height: 300px;*/
+/*	overflow: auto;*/
+}
+.editTC .editbox table {
+	margin-bottom: 5px;
+}
+.editTC .editCon {
+	width: 80%;
+	height: 80%;
+	padding: 20px;
+	overflow: auto;
+	margin-left: -40%;
+}
+.editTC .editCon h3 {
+	border-bottom: 1px solid #ddd;
+}
+/*默认隐藏编辑商品表单*/
+
+.editTC .editCon .editTableCon input {
+	display: none;
+}
+/*默认隐藏商品编辑保存按钮*/
+
+.editTC .editCon .editTableCon .saveBtnBox {
+	display: none;
+}
+.editTC .editCon table tbody input {
+	margin: 0;
+}
+.editTC .editbox input {
+	width: 80%;
+}
+.editTC .editCon table tbody p {
+	margin: 0;
+}
+.editTC .editCon table tbody .btn {
+	padding: 2px 4px;
+	margin: 0;
+}
+.editTC .editCon .box1 td {
+	text-align: center;
+}
+.editTC .editFooter {
+	text-align: right;
+}
+.editTC tbody td {
+	vertical-align: middle;
+	text-align: left;
+}
+.editTC table td span {color: #999;}
+
+.editTC td .redStar{
+	color:red;
+	font-size:17px;
+	margin:0 5px;
+	margin-top:10px;
+}
+.editTC table input {
+	padding: 2px 10px;
+}
+.editTC table .editInp input {
+	width: 70%;
+	margin: 0;
+	height: 20px;
+}
+/*编辑弹窗-----end--*/
+/*国家选择弹窗*/
+.country-nav ul li {
+	display: inline;
+}
+.country-dialog h3 {
+	font-size: 18px;
+	margin:0;
+	margin-top: 15px;
+	line-height: 30px;
+}
+.normal-country ul li,
+.country-list div ul li {
+	float: left;
+}
+.country-list div>h3 {
+	float: left;
+	width: 100%;
+	height: 30px;
+	border-bottom: 1px solid #999;
+}
+.country-dialog ul li {
+	width: 350px;
+	height: 30px;
+	overflow:hidden;
+	line-height: 30px;
+	padding: 0;
+	margin: 0;
+	font-size: 14px;
+}
+.country-dialog label input{margin-top:-2px;margin-right:5px;}
+
+/* OMS Order Table--> */
+.oms-order-table {
+	table-layout: fixed;
+}
+.oms-order-table.limit-width {
+	display: block;
+	word-wrap: break-word;
+}
+.oms-order-table>tbody>tr {
+	height: 10px;
+	cursor: default;
+}
+.oms-order-table thead label {
+	font-size: inherit;
+	font-weight: inherit;
+}
+/* <--OMS Order Table */
+
+/* Tips Modal--> */
+.modal-tips {
+	position: fixed;
+	top: -25%;
+	left: 0px;
+	right: 0px;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 8px 14px 8px 14px;
+	z-index: 10000;
+	width: 460px;
+	display: none;
+	opacity: 0;
+	filter: alpha(opacity=0);
+	-webkit-border-radius: 0px 0px 5px 5px;
+	 -moz-border-radius: 0px 0px 5px 5px;
+	      border-radius: 0px 0px 5px 5px;
+	-webkit-box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
+	 -moz-box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
+	      box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
+	-webkit-background-clip: padding-box;
+	 -moz-background-clip: padding-box;
+	      background-clip: padding-box;
+}
+/* 左下和右下的圆角效果 */
+.modal-tips.circle {
+	-webkit-border-radius: 5px 5px 5px 5px;
+	 -moz-border-radius: 5px 5px 5px 5px;
+	      border-radius: 5px 5px 5px 5px;
+}
+/* 右上角关闭按钮效果 */
+.modal-tips .close{
+	top: -5px;
+	right: -2px;
+}
+/* 内容框控制 */
+.modal-tips .extend, .modal-tips .box{
+	margin-top: 8px;
+	max-height: 300px;
+	overflow-y: auto;
+}
+/* 确认按钮效果 */
+.modal-tips .confirm {
+	margin-top: 6px;
+	border: none;
+	border-radius: 2px;
+}
+/* <--Tips Modal */
+
+/* ========== */
+/*eBay账号页面 start*/
+
+.addEbayTCCon {
+	width: 400px;
+	margin-left: -200px;
+}
+.addEbayTCConBody {
+	padding: 15px;
+	padding-left: 50px;
+}
+table tbody td input.span2{
+	width:100px !important;
+	margin:0;
+}
+/*eBay账号页面 end*/
+/* = paypal账号页面 start= */
+/*添加账号弹窗*/
+
+.addIdTCCon {
+	width: 400px;
+	/*min-height: 400px;*/
+
+	margin-left: -230px;
+}
+.addIdTCCon h2 {
+	font-weight: normal;
+}
+.addIdTCConBody {
+	padding: 15px;
+}
+.addIdTCConBody span {
+	width: 120px;
+}
+/* = paypal账号页面  end= */
+/*已删除页面*/
+
+#ebDeleted .tabBodyHead .search input[type=text] {
+	width: 100px;
+	margin: 0;
+}
+#ebDeleted .tabBodyHead .search select {
+	width: 100px;
+	margin: 0;
+}
+#ebDeleted .tabBodyHead .input-append {
+	margin: 0;
+}
+#ebDeleted .tabBodyHead .input-append input[type=text] {
+	width: 150px;
+}
+/*EBAY 设置页面*/
+
+#ebSet .tabBodyCon p {
+	margin: 20px 0;
+}
+#ebSet .tabBodyCon span {
+	display: block;
+	min-width: 200px;
+	float: left;
+	margin-right: 15px;
+	text-align: right;
+}
+#ebSet .tabBodyCon label {
+	display: inline;
+}
+#ebSet .tabBodyHead h3 {
+	border-bottom: 1px solid #ddd;
+	margin-bottom: 35px;
+}
+#ebSet .tabBodyCon b {
+	color: red;
+	font-size: 18px;
+}
+#ebSet .tabBodyCon input[type=button] {
+	margin-left: 100px;
+}
+/* ========== */
+/* =wish账号页面start= */
+
+#wishAccount .addAccountTC .TCCON {
+	width: 400px;
+	margin-left: -200px;
+}
+#wishAccount .addAccountTC .addIdTCConBody span {
+	display: inline-block;
+	width: 100px;
+	text-align: right;
+}
+/* ========== */
+/* =产品信息管理--start= */
+
+#productsku .addSKUTCCON {
+	width: 435px;
+	margin-left: -200px;
+	border-top: 8px solid #24748C;
+}
+#productsku .addSKUTCBody {
+	height: 400px;
+	overflow: auto;
+}
+#productsku .addSKUTCBody span {
+	width: 100px;
+	text-align: right;
+	display: inline-block;
+}
+#productsku .addSKUTCBody b {
+	color: red;
+}
+#productsku .TCFooter span {
+	color: red;
+	float: left;
+	padding-left: 15px;
+}
+#productsku tbody input[type=text],
+#productsku .saveBtnBox {
+	display: none;
+}
+#productsku .matchingOrderTC {
+	width: 400px;
+	margin-left: -150px;
+	border-top: 8px solid #24748C;
+}
+#productsku .matchingOrderTCBody {
+	padding: 15px 15px 15px 50px;
+}
+/* ========== */
+/* =产品信息管理-批量导入--start= */
+
+#bulkImport tbody input {
+	width: 90%;
+	margin: 0;
+}
+#bulkImport thead b {
+	color: red;
+	font-size: 18px;
+}
+/* ========== */
+/* =产品信息匹配--start= */
+
+#sellSKUSet .sellSKUSetTCOneCon {
+	width: 600px;
+	margin-left: -300px;
+}
+#sellSKUSet .sellSKUSetTCOneBody {
+	padding: 10px 0 10px 10px;
+	max-height: 400px;
+	overflow: auto;
+}
+
+#sellSKUSet .sellSKUSetTCOneBody b {
+	color: red;
+	font-size: 16px;
+}
+#sellSKUSet .sellSKUSetTCOneBody span {
+	width: 100px;
+}
+#sellSKUSet .sellSKUSetTCOneBody table input {
+	width: 200px;
+	margin: 4px;
+}
+#sellSKUSet .sellSKUSetTCOneBody table td,
+#sellSKUSet .sellSKUSetTCOneBody table th {
+	padding: 2px 5px;
+	border: 1px solid #ddd;
+}
+#sellSKUSet .sellSKUSetTCOneBody .skuTable {
+	border-top: 1px dashed #ddd;
+	padding-top: 10px;
+	position: relative;
+}
+#sellSKUSet .sellSKUSetTCOneBody .skuTable .addTr {
+	position: absolute;
+	bottom: 5px;
+	right: 10px;
+}
+#sellSKUSet .dropdown-toggle,
+#sellSKUSet .search-query,
+#shippingModeRules .dropdown-toggle,
+#shippingModeRules .search-query {
+	border-radius: 0;
+}
+#sellSKUSet .searchBtn,
+#shippingModeRules .searchBtn {
+	border-radius: 0px 5px 5px 0px;
+}
+
+/*编辑申报价值匹配规则弹窗*/
+
+#shippingModeRules .SMRulesTCOneCon {
+	width: 700px;
+	margin-left: -350px;
+}
+#shippingModeRules .SMRulesTCOneBody span {
+	width: 110px;
+	text-align: right;
+}
+#shippingModeRules .SMRulesTCOneBody textarea {
+	height: 150px;
+	overflow: auto;
+}
+#shippingModeRules .SMRulesTCTwoCon {
+	width: 500px;
+	margin-left: -250px;
+}
+#sellSKUSet .sellSKUSetTCTwoBody,
+#shippingModeRules .SMRulesTCTwoBody,
+#shippingModeRules .SMRulesTCOneBody {
+	padding: 15px;
+}
+/* ========== */
+/* =产品信息匹配--start= */
+/*pickorder--页面--检货页面--start*/
+
+#pickorder .wrap {
+	width: 90%;
+	margin: 30px auto;
+}
+#pickorder h2 {
+	background: #E6E6E6;
+	padding: 10px;
+	font-size: 18px;
+	border-bottom: 3px double #666;
+}
+#pickorder .box {
+	margin-top: 35px;
+}
+#pickorder .box h3 {
+	font-size: 16px;
+	border-bottom: 1px solid #333;
+	padding: 5px;
+	margin-bottom: 15px;
+}
+#pickorder .box h3 span {
+	margin-right: 100px;
+}
+#pickorder .boxBody {
+	font-size: 14px;
+}
+#pickorder .boxBody .left {
+	width: 20%;
+	float: left;
+}
+#pickorder .boxBody .left p {
+	width: 90%;
+	border-bottom: 1px dashed #e5e5e5;
+	line-height: 20px;
+	height: 20px;
+	margin: 0;
+	margin-bottom: 3px;
+	padding-left: 5px;
+	overflow: hidden;
+}
+#pickorder .boxBody .right {
+	width: 75%;
+	float: right;
+}
+#pickorder .boxBody table {
+	border-collapse: collapse;
+}
+#pickorder .boxBody table th,
+#pickorder .boxBody table td {
+	border: 1px solid #999;
+	padding: 5px;
+	height: 25px;
+}
+#pickorder .boxBody table tr:nth-child(even) {
+	background: #F7F7F7;
+}
+/*按SKU捡货单*/
+
+#pickorder #SKUPickGoods table {
+	width: 100%;
+}
+
+/*速卖通订单上传*/
+.upLoadUl li{list-style-type:disc;margin:0 0 10px 20px;}
+
+
+@media print {
+	#pickorder h2 a {
+		display: none;
+	}
+}
+/*pickorder--页面--检货页面--end*/
+
+/* *loading */
+#loading {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	background: rgba(255, 255, 255, 0.05);
+	z-index: 929;
+	text-align:center;
+}
+#loading img{
+	margin-top:20%;
+}
+
+
+#downAdd .img-loading,
+#shShippingConfirmModal .img-loading {
+	position: absolute;
+	right: 0;
+	display: none;
+	margin-top: -70px;
+	margin-right: 100px;
+}
+
+#shShippingConfirmModal .img-loading{
+	margin-top: 3px;
+}
+
+/* 重置bootstrap样式*/
+.resetBootstrapHint {
+	width: 650px !important;
+	border-top: 8px solid #24748C;
+}
+
+/*账号弹窗 start*/
+.accountWindow span{
+	width: 80px;
+	text-align: right;
+	margin-left: 30px;
+	display: inline-block;
+}
+
+.accountWindow input[type="text"]{
+	margin: 0 0 0 15px;
+	width: 300px;
+}
+
+.accountWindow input[type="radio"]{
+	margin: 0 4px 0 15px;
+}
+
+.userNameJudge {
+	height:20px;
+	font-size:12px;
+	margin:0 0 10px 85px;
+	padding:0px 45px;
+	display: none;
+}
+
+.matching2order {
+	position: absolute;
+	right: 0;
+	margin-right: 80px;
+	top: 0;
+	margin-top: 110px;
+	display: none;
+}
+
+/* 账号弹窗 end*/
+/* 销售SKU设置的查询按钮*/
+#sellSKUSet .delTr.disabled,
+#srcrchBtn:disabled {cursor: no-drop;}
+
+/* 只能匹配信息框*/
+#messagebox {
+	width: 670px;
+	height: 597px;
+}
+
+#messagebox h3 {font-size: 16px;}
+#messagebox h4 {
+	margin: 0;
+	font-size: 12px;
+	font-weight: normal;
+}
+
+#messagebox p {margin: 2px 0;}
+#messagebox p.btn-box {
+	text-align: center;
+	margin-top: 20px;
+}
+
+#messagebox span {
+	display: inline-block;
+	width: 106px;
+	margin-right: 10px;
+	text-align: right;
+	font-size: 12px;
+	font-weight: bold;
+}
+
+#messagebox span i {color: #b94a48;}
+
+#messagebox textarea {
+	width: 206px;
+	height: 80px;
+}
+
+#messagebox input[type="text"] {width: 90px;}
+#messagebox input[type="submit"],
+#messagebox input[type="reset"] {width: 80px;}
+
+#messagebox q {
+	display: inline-block;
+	margin-left: 10px;
+	font-size: 10px;
+	vertical-align: top;
+}
+
+#messagebox q button {vertical-align: top;}
+
+#messagebox .modal-body {
+	min-height: 497px;
+	max-height: 497px;
+	overflow: auto;
+}
+
+#messagebox select {
+	width: 170px;
+	margin-right: 10px;
+	vertical-align: inherit;
+}
+
+#messagebox label {
+	color: green;
+	cursor: pointer;
+}
+
+#messagebox .modal-footer {
+	height: 20px;
+	padding: 0;
+}

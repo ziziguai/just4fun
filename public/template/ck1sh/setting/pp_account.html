@@ -1,0 +1,320 @@
+{include file='ck1sh/_partials/head_inc.html'}
+<body>
+	<!-- 顶部警告框 -->
+	<div class="topWarn"></div>
+	<!-- 添加Paypal账号弹窗 -->
+	<div class="addIdTCCon TCCON modal hide fade">
+		<div class="modal-header">
+			<h3>
+				<span>添加Paypal账户</span>
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+			</h3>
+		</div>
+		<div class="modal-body addIdTCConBody">
+			<p>
+				<span>API Username</span>
+				<input type="text" class="userName" />
+				<b style="color: red">*</b>
+			</p>
+			<p class='userNameJudge'></p>
+			<p>
+				<span>API Password</span>
+				<input type="text" class="pass" />
+				<b style="color: red">*</b>
+			</p>
+			<p>
+				<span>API Signature</span>
+				<input type="text" class="signa" />
+				<b style="color: red">*</b>
+			</p>
+		</div>
+		<div class="modal-footer addIdTCFooter">
+			<span style="color:red;float:left;"></span>
+			<input type="button" value="添加" class="btn btn-primary addIdBtn" />
+			<input type="button" value="保存" class="btn btn-primary saveBtn" />
+			<button class="btn" data-dismiss="modal" aria-hidden="true">取消</button>
+		</div>
+	</div>
+
+	<div class="wrap">
+		<ul class="breadcrumb" style="background-color: transparent;">
+            <li><a href="http://demo.chukou1.cn/Client/Home/Home.aspx">首页</a>&nbsp;<span class="divider">/</span></li>
+            <li><a href="?r=oms/home">Selling Helper</a>&nbsp;<span class="divider">/</span></li>
+            <li><a href="?r=oms/shorder/normal&platform={$platform}">{$platformName}</a>&nbsp;<span class="divider">/</span></li>
+            <li class="active">账号管理</li>
+        </ul>
+		<div class="tabHead">
+			<ul>
+				<li><a href="?r=oms/shebay/manage">eBay账号</a></li>
+				<li><a href="?r=oms/shpaypal/manage" class="tabActive">Paypal账号</a></li>
+			<div class="tabHeadRight">
+				<a href='?r=oms/shorder/normal&platform={$platform}' class='btn'>
+					<i class="fa fa-mail-reply"></i> 返回订单列表</a>
+			</div>
+			</ul>
+			<div class="clear"></div>
+		</div>
+		<div class="content">
+			<div class="tabBody">
+				<div class="tabBody1">
+					<div class="tabBodyHead">
+						<div class="sel">
+							<div class="selRight">
+								<a href="http://paypal.ebay.cn/integrationcenter/list__resource_8.html" target="_blank">如何获取Paypal账号？</a>
+								<input type="button" value="添加Paypal账号" class="btn btn-primary addpaypalIdBtn">
+								<input type="button" value="启用账号" class="btn btn-warning startUser" id = "startAccount">
+								<input type="button" value="停用账号" class="btn btn-warning stopUser" id = "stopAccount">
+								<input type="button" value="删除" class="btn btn-warning deleteUser">
+							</div>
+							<div class="clear"></div>
+						</div>
+
+					</div>
+					<div class="tabBodyCon">
+						<table class="table table-striped table-hover">
+							<colgroup>
+								<col width="70px"/>
+							</colgroup>
+							<thead>
+								<tr>
+									<th>
+										<label>
+											全选<input type="checkbox" />
+										</label>
+									</th>
+									<th>APIUsername</th>
+									<th>状态</th>
+									<th>操作</th>
+								</tr>
+							</thead>
+							<tbody>
+								{if ($account eq null)}
+								<tr>
+									<td colspan="13" align="center">无数据</td>
+								</tr>
+								{else} {foreach from = $account key=a item=i}
+								<tr data-id="{$i.paypal_id}">
+									<td>
+										<input type="checkbox" />
+									</td>
+									<td class="userNameText">{$i.user_name}</td>
+									{if $i.status == 1}
+									<td>已启用</td>
+									{else}
+									<td>已停用</td>
+									{/if}
+									<td class="paypalIdEdit"><a href="javascript:;">编辑<i class="icon icon-pencil"></i></a>
+									</td>
+								</tr>
+								{/foreach} {/if}
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	{literal}
+	<script>
+		"use strict";
+		require(['util'], function(util){
+			$(function() {
+				var addEditNum = 0;
+				// 列表复选框清空
+				$('.tabBodyCon table input[type=checkbox]').attr('checked', false);
+
+				// 弹窗--添加paypal账号按钮
+				$('.addpaypalIdBtn').on('click', function() {
+					$('.saveBtn').hide(0);
+					$('.addIdBtn').show(0);
+					$('.addIdTCCon').modal('show');
+					addEditNum = 1;
+				});
+
+				// 获取弹窗里边表单
+				var userName = $('.addIdTCConBody .userName');
+				var pass = $('.addIdTCConBody .pass');
+				var signa = $('.addIdTCConBody .signa');
+				var hint = $('.addIdTCFooter span');
+
+				// 当用户名表单失去焦点的时候判断用户是否已被注册--start
+				userName.blur(function(){
+					if (addEditNum) {
+						var userNameVal = $.trim(userName.val());
+						if (userNameVal) {
+							$.ajax({
+								url: "?r=oms/shpaypal/PaypalCheck&apiName=" + userNameVal,
+								success: function(data) {
+									if (data.statu == 1) {
+										$('.userNameJudge').html('用户名已被注册，请重新输入！');
+										$('.userNameJudge').css('color', '#F78B8B');
+										$('.userNameJudge').show();
+									} else {
+										$('.userNameJudge').html('用户名可用');
+										$('.userNameJudge').css('color', 'green');
+										$('.userNameJudge').show();
+									}
+								}
+							})
+						} else {
+							$('.userNameJudge').html('请输入用户名');
+							$('.userNameJudge').css('color', '#F78B8B');
+							$('.userNameJudge').show();
+						}
+					} else {
+						return;
+					}
+				});// 当用户名表单失去焦点的时候判断用户是否已被注册--end
+
+				// 去掉2边输入的空格
+				util.fTrim($([userName, pass, signa]));
+
+				// 点击添加按钮--start
+				$('.addIdBtn').on('click', function() {
+					var userNameVal = userName.val();
+					if(!userNameVal){
+						util.showTips('error', "输入不能为空");
+						return;
+					}
+					var apiPwdVal = pass.val();
+					if(!apiPwdVal){
+						util.showTips('error', "输入不能为空");
+						return;
+					}
+					var signaVal = signa.val();
+					if(!signaVal){
+						util.showTips('error', "输入不能为空");
+						return;
+					}
+					// 判断表单是否为空
+					if (!userNameVal || !apiPwdVal || !signaVal) {
+						$('.addIdTCFooter span').html('请填写完整！');
+					} else {
+							// ajax传值-start
+							$.ajax({
+								url: "?r=oms/shpaypal/dealPaypalAccount&apiName=" + userNameVal + "&apiPwd=" + apiPwdVal + "&sign=" + signaVal + "&type=add",
+								success: function(data) {
+								//判断用户名是否已被注册
+								if (data.statu == 0){
+									util.showTips('error','抱歉，用户名已被注册，请重新输入！');
+									setTimeout(function() {
+										window.location.reload();
+									}, 800)
+								} else {
+									util.showTips('success','添加成功！');
+									setTimeout(function() {
+										window.location.reload();
+									}, 800)
+								}
+							}
+						})
+						// ajax传值-end
+					}
+				});
+
+				// 点击添加按钮--end
+				// 启用账户
+				util.eBaySSDAjax($('#startAccount'), "?r=oms/shpaypal/updatepaypal&type=enable&aid=");
+				// 停用账户
+				util.eBaySSDAjax($('#stopAccount'), "?r=oms/shpaypal/updatepaypal&type=notenable&aid=");
+
+				// 删除账户
+				$(".deleteUser").on('click',function(){
+					$.ajaxSetup({
+						contentType: "application/x-www-form-urlencoded; charset=utf-8"
+					});
+					var getAllId_str = util.getAllId($('.tabBodyCon tbody tr input[type=checkbox]:checked'));
+					if (getAllId_str.length == 0) {
+						alert('请勾选复选框');
+					} else {
+						var aa = confirm('确定删除？');
+						if (aa == true){
+							$.ajax({
+								url: '?r=oms/shpaypal/updatepaypal&type=del&aid=' + getAllId_str + '&cc=' + Math.random(),
+								success: function(data) {
+									if(data){
+										var jsonData = JSON.parse(data);
+										if (data == 0) {
+											util.showTips('error','操作失败');
+											setTimeout(function() {
+												window.location.reload();
+											}, 1000);
+										} else {
+											util.showTips('success','操作成功！');
+											setTimeout(function() {
+												window.location.reload();
+											}, 1000);
+										}
+									}
+								}
+							});
+						}
+					}
+				});
+
+				// 编辑paypal账号--弹窗--start
+				// 当前Id
+				var thisEditId = 0;
+				$('.paypalIdEdit').on('click', function() {
+					addEditNum = 0;
+					var userNameText = $(this).siblings().filter('.userNameText').html();
+					thisEditId = $(this).parent().attr('data-id');
+					$('.addIdTCCon .userName').val(userNameText);
+					$('.modal-header h3 span').html('编辑Paypal账号');
+					$('.addIdBtn').hide(0);
+					$('.addIdTC').show(0);
+					$('.saveBtn').show(0);
+					$('.addIdTCCon').modal('show');
+				});// 编辑paypal账号--弹窗--end
+
+				// 保存编辑账户--start
+				$('.saveBtn').on('click', function() {
+					var userNameVal = userName.val();
+					var apiPwdVal = pass.val();
+					var signaVal = signa.val();
+					// 判断表单是否为空
+					if (!userNameVal || !apiPwdVal || !signaVal) {
+						util.showTips('error','请填写完整！');
+					} else {
+						// ajax传值-start
+						$.ajax({
+							type:"post",
+							url: "?r=oms/shpaypal/dealPaypalAccount&apiName=" + userNameVal + "&apiPwd=" + apiPwdVal + "&sign=" + signaVal + "&type=edit&aid=" + thisEditId,
+							contentType: "application/x-www-form-urlencoded; charset=utf-8",
+							success: function(data) {
+								// 判断用户名是否已被注册
+								if (data.statu == 0) {
+									util.showTips('error','抱歉，用户名已被注册，请重新输入！');
+								} else {
+									util.showTips('success','保存成功！');
+									setTimeout(function() {
+										window.location.reload();
+									}, 800);
+								}
+							}
+						})
+						// ajax传值-end
+					}
+				});// 保存编辑账户--end
+
+				// 复选框全选
+				util.checkAllBoxes($('.tabBodyCon table thead :checkbox'), $('.tabBodyCon table tbody :checkbox'));
+
+				// 关闭弹窗-并清除表单内容
+				$('.TCCloseBtn,.TCCancelBtn, .addpaypalIdBtn').on('click', function() {
+					inputDelete();
+				});
+
+				function inputDelete(){
+					$('.addIdTC').hide(0);
+					$('.addIdTCConBody input[type="text"]').val('');
+					$('.userNameJudge').html('');
+					$('.addIdTCFooter span').html('');
+					$('.userNameJudge').hide();
+				}
+			});/* jquery $() --end */
+		});/* require --end */
+	</script>
+	{/literal}
+</body>
+</html>

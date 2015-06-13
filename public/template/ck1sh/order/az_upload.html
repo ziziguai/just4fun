@@ -1,0 +1,64 @@
+{include file='ck1sh/_partials/head_inc.html'}
+<body>
+	{literal}
+	<style type="text/css">
+		* {padding: 0;margin: 0;}
+		ul,li {list-style: none;}
+		.wrap {padding: 15px;border: 1px solid #ddd;margin: 15px;border-radius: 5px;}
+		p {height: 30px;}
+		label {display: inline-block;margin-right: 15px;}
+		input[type="radio"] {margin-top: -3px;}
+	</style>
+	{/literal}
+	<div style="padding-top: 10px;">
+		<ul class="breadcrumb" style="background-color: transparent;">
+            <li><a href="http://demo.chukou1.cn/Client/Home/Home.aspx">首页</a>&nbsp;<span class="divider">/</span></li>
+            <li><a href="?r=oms/home">Selling Helper</a>&nbsp;<span class="divider">/</span></li>
+            <li><a href="?r=oms/shorder/normal&platform={$platform}">{$platformName}</a>&nbsp;<span class="divider">/</span></li>
+            <li class="active">上传订单</li>
+        </ul>
+	</div>
+	<div class="wrap">
+		<form action='' method="post" enctype="multipart/form-data">
+			亚马逊账号名: {foreach from=$azAccounts item=it}
+				<label>
+					<input  class = 'btnchecked' type="radio" name="azAccount" value="{$it.account_id}" data-aname="{$it.account_name}"> {$it.account_name}
+				</label>
+				{/foreach}
+				<label>
+					<input type="radio" name="azAccount" value="0" data-aname=""> 新账户名
+				</label>
+				<input name="sellerID" type="text" value="">
+				<input name="seller_id" type="hidden" value="">
+
+			<p>(注：上面选项能保证在亚马逊上传tracking的正确率)</p>
+			<p>
+				<input name="filename" type="file" id="uploadFile">
+				<input type='submit' id="uploadBtn" name='submit' value='上传' class="btn btn-primary">
+				<a class="btn" value="返回" href="{$smarty.server.HTTP_REFERER}">
+				<a href="http://www.chukou1.com/doc/sellinghelper/GetAmazonOrderFilesForCK1.pdf" target="_blank">如何获得上传所需文件？</a>
+			</p>
+		</form>
+		<hr>
+		<p>温馨提示：</p>
+		<ul class="upLoadUl">
+			<li>上传亚马逊订单是在出口易下单的第一步，上传的文件必须是在亚马逊系统上下载的订单txt文件或转换后的excel文件；</li>
+			<li>上传成功的数据会显示在&ldquo;待发货订单&rdquo;；</li>
+			<li>统一设置亚马逊SKU与出口易产品型号，为您自动匹配重量、申报价值等产品信息。<a href="http://www.chukou1.com/doc/sellinghelper/SKUInfoMapping(Amazon).pdf" target="_blank">操作说明文档</a>
+			</li>
+		</ul>
+	</div>
+	{literal}
+	<script>
+		"use strict";
+		require(['upload'], function(){
+			$("input[name='azAccount']").on('click', function(){
+				var self = this;
+				$("input[name='sellerID']").val(self.data('aname'));
+				$("input[name='seller_id']").val(self.val());
+			});
+		});
+	</script>
+	{/literal}
+</body>
+</html>

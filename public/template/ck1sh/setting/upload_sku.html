@@ -1,0 +1,70 @@
+{include file='ck1sh/_partials/head_inc.html'}
+<body>
+	<!--顶部警告框-->
+	<div class="topWarn"></div>
+	<div class="wrap">
+		<ul class="breadcrumb" style="background-color: transparent;">
+            <li><a href="http://demo.chukou1.cn/Client/Home/Home.aspx">首页</a>&nbsp;<span class="divider">/</span></li>
+            <li><a href="?r=oms/home">Selling Helper</a>&nbsp;<span class="divider">/</span></li>
+            <li><a href="?r=oms/shorder/normal&platform={$platform}">{$platformName}</a>&nbsp;<span class="divider">/</span></li>
+            <li class="active">设置</li>
+        </ul>
+		<!--基本参数设置--start-->
+		<div class="setBox" style="padding:15px;">
+			<form action='index.php?r=oms/Shshipping/UploadSku' method="POST" enctype="multipart/form-data">
+				<h3>批量添加发货方式规则</h3>
+				<div class="setBoxBody">
+					<p>
+						<input type="file" name="filename" id="filename"/>
+						<input type="submit" name="submit" value="上传"  class="btn btn-primary" id="upload">
+						<input type="button" name="" value="模板下载"  class="btn" id="template">
+					</p>
+					<p style="margin:40px 0 5px 0;">温馨提示</p>
+					<p>excel每行代表一个细规则，可按需要自主添加行;</p>
+				</div>
+			</form>
+		</div>
+	</div>
+	<!--基本参数设置--end-->
+	{literal}
+	<script>
+		"use strict";
+		require(['util'], function(uitl){
+			$(function(){
+				// 下载模版
+				$('#template').click(function(){
+					$.ajax({
+						url: 'index.php?r=oms/Shshipping/DefTemplate',
+						success: function(data) {
+							util.idownload(data);
+						}
+					});
+				});
+
+				// 上传文件
+				$('#upload').click(function(){
+					var file = $('#filename').val();
+					if(file === '' || file == null){
+						util.showTips('warning', '请先选择文件！');
+					    return false;
+					}
+					var position = file.lastIndexOf('.');
+					if(position < 0){
+						util.showTips('error', '上传文件并不是.xls或者.xlsx格式，无法处理！');
+						return false;
+					}else{
+						var ext = file.substring(position + 1, file.length);
+						if(ext === 'xlsx' || ext === 'xls'){
+							return true;
+						} else{
+							util.showTips('error', '上传文件并不是.xls或者.xlsx格式，无法处理！');
+							return false;
+						}
+					}
+				});
+			});
+		});
+	</script>
+	{/literal}
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!-- "同步订单"弹窗 start-->
+<div id="syncOrderModal" class="modal TCCONBorTop hide">
+	<div class="modal-header">
+		<a class="close" data-dismiss="modal" aria-hidden="true">&times;</a>
+		<h4>立即同步&nbsp;[{$platformName}]&nbsp;订单</h4>
+	</div>
+	<div class="modal-body">
+		<div>
+			<input class="span1-6 time-selector" type="text" name="startTime" value="" placeholder="起始时间" />
+            &nbsp;&oline;&nbsp;
+            {if $syncOrderSet.enableEndTime}
+	            <input class="span1-6 time-selector" name="endTime" type="text" placeholder="截止时间" />
+            {else}
+	            <input class="span1-6 end-time" readonly type="text" name="readonlyEndTime">
+		        <span class="help-inline"><span class="text-warning">截止时间默认为当前时间</span>
+            {/if}
+			<br/>
+			<span>注意：同步订单时间间隔不能超过七天！</span>
+		</div>
+		<div>
+	        <img class="img-loading hide" name="runtimeTips" height="30" width="30"  src="public/template/ck1sh/img/loading.gif">
+			<span class="hide" name="runtimeTips">正在同步中...</span>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<a name="confirmBtn" class="btn btn-primary">立即同步</a>
+		<a data-dismiss="modal" aria-hidden="true" class="btn" id="cancelSyn">取消</a>
+	</div>
+</div>
+<!-- "同步订单"弹窗 end-->

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>OMS{if $page_title} - {$page_title}{/if}</title>
+    <meta name="description" content="EC-Order Management System{if $page_desc}: {$page_desc}{/if}">
+    <!-- <meta name="viewport" content="width=device-width"> -->
+    <!-- Bootstrap v2 -->
+    <link rel="stylesheet" type="text/css" href="public/template/ck1sh/css/bootstrap.min.css" />
+    <!-- Font awesome v4.3.0 -->
+    <link rel="stylesheet" type="text/css" href="public/template/ck1sh/css/font-awesome-4.3.0/css/font-awesome.min.css" />
+    <!-- Bootstrap datetime-picker -->
+    <link rel="stylesheet" type="text/css" href="public/template/ck1sh/css/bootstrap-datetimepicker.min.css" />
+    <!-- Custom extension of bootstrap  -->
+    <link rel="stylesheet" type="text/css" href="public/template/ck1sh/css/bootstrap-extension.css?_201504021350" />
+    <!-- Main css of oms  -->
+    <link rel="stylesheet" type="text/css" href="public/template/ck1sh/css/index.css?_20150114" />
+
+    <!-- Loading script module -->
+    <script type="text/javascript" src="public/template/ck1sh/js/jquery-1.8.3/jquery-1.8.3.js"></script>
+    <script type="text/javascript" src="public/template/ck1sh/js/require-2.1.18/require.js"></script>
+    {literal}
+    <script>
+        requirejs.config({
+            baseUrl: 'public/template/ck1sh/js/',
+            paths: {
+                /* External framework module */
+                'jquery': 'jquery-1.8.3/jquery-1.8.3',
+                'underscore': 'underscore-1.8.3/underscore-min',
+                'bootstrap': 'bootstrap-v2/bootstrap.min',
+                'bootstrap_ex': 'bootstrap-v2/bootstrap-extension',
+                'datepicker': 'bootstrap-datetimepicker/bootstrap-datetimepicker.min',
+                'datepicker_cn': 'bootstrap-datetimepicker/bootstrap-datetimepicker.zh-CN',
+                'moment': 'momentjs-2.10.2/moment.min',
+                'knockout': 'knockout-3.3.0/knockout-3.3.0',
+                /* Custom js module [Forder: sunshine] */
+                'sunshine': 'sunshine-1.0.0',
+                'util': 'sunshine-1.0.0/util',
+            },
+            shim: {
+                /* Not AMD standard module dependency and call name */
+                'underscore': {exports: '_'},
+                'bootstrap': {deps: ['jquery']},
+                'datepicker_cn': {deps: ['datepicker']},
+            }
+        });
+        // 引入bootstrap js
+        require(['bootstrap', 'bootstrap_ex']);
+    </script>
+    {/literal}
+</head>

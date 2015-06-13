@@ -1,0 +1,122 @@
+{include file='ck1sh/_partials/head_inc.html'}
+<body id="pickorder" oid='{$type}'>
+	<div class="wrap">
+		<!--*******************-->
+		<!--*****按订单捡货 -start*****-->
+		<div id="orderPickGoods" class="PickGoods">
+			<h2 style="position:relative;"><a href="javascript:;"  class="btn" style="position:absolute;right:10px;top:15px;">打印</a></h2>
+			<div>
+			{if ($pick eq null)}
+				<label>无数据</label>
+			{else} {foreach from=$pick key=k item=a}
+				<div class="box">
+					<h3>
+						<span>订单号：<b>{$a.OrderID}</b></span>
+						<span>处理号：<b>{$a.package_sn}</b></span>
+					</h3>
+					<div class="boxBody">
+						<!--地址内容显示-->
+						<div class="left">
+							<p title="" id="">{$a.BuyerName}</p>
+							<p title="" id="">{$a.Street1}</p>
+							<p title="" id="">{$a.Street2}</p>
+							<p title="" id="">{$a.CityName}</p>
+							<p title="" id="">{$a.StateOrProvince}</p>
+							<p title="" id="">{$a.PostalCode}</p>
+							<p title="" id="">{$a.CountryCode}</p>
+							<p title="" id="">{$a.BuyerPhone}</p>
+						</div>
+						<!--商品内容-->
+						<div class="right">
+							<table style="width:100%;">
+								<thead>
+									<tr>
+										<th>SKU</th>
+										<th>Quantity</th>
+										<th>ItemID</th>
+										<th>ItemTitle</th>
+									</tr>
+								</thead>
+								{foreach from=$pick.$k.product_list key=k item=b}
+									<tbody>
+										<tr>
+											<td>{$b.product_sku} {$b.sale_sku}</td>
+											<td>{$b.quantity}</td>
+											<td>{$b.product_id}</td>
+											<td>{$b.product_name}</td>
+										</tr>
+									</tbody>
+								{/foreach}
+						</table>
+					</div>
+				</div>
+				<div class="clear"></div>
+			</div>
+			{/foreach} {/if}
+		</div>
+			</div>
+		<!--*****按订单捡货 -end*****-->
+
+		<!--*****按SKU捡货 -start*****-->
+		<div id="SKUPickGoods" class="PickGoods" style="display:none;">
+			<h2 style="position:relative;"><a href="javascript:;"  class="btn" style="position:absolute;right:10px;top:15px;">打印</a></h2>
+			<div class="box">
+				<div class="boxBody">
+					<!--商品内容-->
+					<table style="width:100%;">
+						<thead>
+							<tr>
+								<th>SKU</th>
+								<th>Quantity</th>
+								<th>ItemID</th>
+								<th>ItemTitle</th>
+							</tr>
+						</thead>
+						{if ($pick eq null)}
+							<tr>
+								<td colspan="4" align="center">无数据</td>
+							</tr>
+						{else} {foreach from=$pick key=k item=a}
+						<tbody>
+							<tr>
+								<td>{$a.product_sku} {$a.sale_sku}</td>
+								<td>{$a.quantity}</td>
+								<td>{$a.product_id}</td>
+								<td>{$a.product_name}</td>
+							</tr>
+						</tbody>
+						{/foreach} {/if}
+					</table>
+				</div>
+			</div>
+		</div>
+		<!--*****按SKU捡货 -end*****-->
+	</div>
+	{literal}
+	<script>
+		"use strict";
+		require(['moment'], function(moment){
+			$(function(){
+				// 显示时间
+				$('.PickGoods h2').append('捡货单 '+ moment.unix(new Date().valueOf() / 1e3).format('YYYY-MM-DD HH:mm'));
+				// 获取捡货单类型
+				var a = $('body').attr('oid');
+				// 按sku
+				if(a == 2){
+					$('#SKUPickGoods').show();
+					$('#orderPickGoods').hide();
+				} else {
+					// 按订单
+					$('#SKUPickGoods').hide();
+					$('#orderPickGoods').show();
+				}
+				// 打印
+				$('.btn').on('click', function() {
+					window.print();
+				});
+			});
+		});
+	</script>
+	{/literal}
+</body>
+</html>

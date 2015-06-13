@@ -1,0 +1,310 @@
+{include file='ck1sh/_partials/head_inc.html'}
+<body>
+	<!-- 顶部警告框 -->
+	<div class="topWarn"></div>
+	<!-- 添加ali账号弹窗 start-->
+		<div class="resetBootstrapHint modal hide fade " id="account">
+			<div class="modal-header">
+				<h3>
+				<span>添加速卖通账户</span>
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				</h3>
+			</div>
+			<div class="addEbayTCConBody">
+				<div class="addIdFirst"  style="display:none;" id="bind" >
+					<p>第一步：请输入您需要绑定的速卖通账号名 </p>
+					<p><span>账号名：</span><input type="text" class="userName" id="accname"/></p>
+					<p class='userNameJudge'></p>
+				</div>
+				<div class="addIdThird" id="wait" >
+					<p>第二步：登录速卖通授权页面，进行授权 </p>
+					<p><a class="btn btn-primary" style="cursor:default;margin-left:20px;target:_blank;" target="_blank" id="empower"
+					href = "{$auth}"
+					>登录</a></p>
+				</div>
+				<div class="addIdThird" id="over" >
+					<p>第三步：授权成功，点击完成  </p>
+					<p><input type="button" value="完成" class="btn btn-primary addIdBtn" id="accomplish"/></p>
+				</div>
+			</div>
+			<div class="addIdTCFooter TCFooter" id="xia" >
+				<span style="color:red;float:left;"></span>
+				<input type="button" value="下一步" class="btn btn-primary addIdBtn" id="next" />
+			</div>
+			</div>
+		</div>
+	<!-- 添加ali账号弹窗 end-->
+	<div class="wrap">
+		<ul class="breadcrumb" style="background-color: transparent;">
+            <li><a href="http://demo.chukou1.cn/Client/Home/Home.aspx">首页</a>&nbsp;
+            	<span class="divider">/</span>
+            </li>
+            <li><a href="?r=oms/home">Selling Helper</a>&nbsp;<span class="divider">/</span></li>
+            <li><a href="?r=oms/shorder/normal&platform={$platform}">{$platformName}</a>&nbsp;
+            	<span class="divider">/</span>
+            </li>
+            <li class="active">账号管理</li>
+        </ul>
+		<div class="tabHead">
+			<ul>
+				<li><a class="tabActive">速卖通账号</a></li>
+			</ul>
+			<div class="tabHeadRight">
+				<a href="?r=oms/shorder/normal&platform={$platform}" class="btn">
+					<i class="fa fa-mail-reply"></i> 返回订单列表</a>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<div class="content">
+			<div class="tabBody">
+				<div class="tabBody1">
+					<div class="tabBodyHead">
+						<div class="sel">
+							<div class="selRight">
+								<input type="button" value="添加速卖通账号" class="btn btn-primary" id = "addAccount">
+								<input type="button" value="启用账号" class="btn btn-warning" id = "startAccount">
+								<input type="button" value="停用账号" class="btn btn-warning" id = "stopAccount">
+								<input type="button" value="删除" class="btn btn-warning" id = "delAccount">
+							</div>
+							<div class="clear"></div>
+						</div>
+					</div>
+					<div class="tabBodyCon">
+						<table class="table table-striped table-hover">
+							<colgroup>
+								<col width="70px"/>
+								<col />
+								<col width="150px"/>
+								<col width="150px"/>
+								<col width="150px"/>
+								<col width="100px"/>
+								<col width="150px"/>
+							</colgroup>
+							<thead>
+								<tr>
+									<th>
+										<label>
+											全选<input type="checkbox" />
+										</label>
+									</th>
+									<th>账号名</th>
+									<th>创建时间</th>
+									<th>更新时间</th>
+									<th>是否过期</th>
+									<th>状态</th>
+									<th>操作</th>
+								</tr>
+							</thead>
+							<tbody>
+							{if ($AccountsArray eq null)}
+			                    <tr>
+				                   <td colspan="8" align="center">无数据</td>
+				                </tr>
+			                {else}
+		                        {foreach from=$AccountsArray key=a  item=i}
+								<tr data-id='{$i.account_id}'>
+									<td  id = '{$i.account_id}'>
+										<input type="checkbox"/>
+									</td>
+									<td class="accountName">{$i.Account}</td>
+									<td name="time_col">{$i.CreateTime}</td>
+									<td name="time_col">{$i.UpdateTime}</td>
+									{if ($i.remainTime == 0)}
+									<td ><font color="#C0C0C0">未授权</font></td>
+									{elseif ($i.remainTime < 0)}
+									<td ><font color="#C0C0C0">已过期，请重新授权</font></td>
+									{else}
+									<td>剩余 {$i.remainTime} 天</td>
+									{/if}
+									{if ($i.status == 0)}
+									<td><font color="#C0C0C0">已停用</font></td>
+									{elseif ($i.status == 1)}
+									<td><font color="#4F4F2F">已启用</font></td>
+									{/if}
+									<td><input type="button" value="重新授权" class="btn againAccredit" id = "againAccount" ></td>
+								</tr>
+                             	{/foreach}
+		                     {/if}
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	{literal}
+	<script>
+		"use strict";
+		require(['moment', 'util'], function(moment, util){
+			// 暂时这么处理，后续改为ajax加载
+			$.each($('[name=time_col]td'), function(index, item){
+				$(item).text(moment.unix($(item).text()).format('YYYY-MM-DD HH:mm'));
+			});
+			// 用户选择删除时提醒
+			AliAjax($('#startAccount'),'?r=oms/shaliexpress/updateali&type=2&aid=');
+			AliAjax($('#stopAccount'),'?r=oms/shaliexpress/updateali&type=3&aid=');
+			$('body').attr('id','aliAccount');
+			function AliAjax(obj, urlStr) {
+				obj.on('click', function() {
+					var getAllId_str = util.getAllId($('.tabBodyCon tbody tr input[type=checkbox]:checked'));
+					if (getAllId_str.length == 0) {
+						util.showTips('warning', '请勾选复选框!');
+					} else {
+						$.ajax({
+							url: urlStr + getAllId_str + "&ccc=" + Math.random(),
+							success: function(data) {
+								util.showTips('success', '操作成功！');
+								setTimeout(function() {
+									window.location.reload();
+								}, 800)
+							}
+						});
+					}
+				})
+			}
+
+			// 删除账户
+			$("#delAccount").on('click',function(){
+				var getAllId_str = util.getAllId($('.tabBodyCon tbody tr input[type=checkbox]:checked'));
+				if (getAllId_str.length == 0) {
+					util.showTips('warning', '请勾选复选框!');
+				} else {
+					var aa = confirm('确定删除？');
+					if (aa == true){
+						$.ajax({
+							url: '?r=oms/shaliexpress/updateali&type=1&aid=' + getAllId_str + '&cc=' + Math.random()+'&type=1',
+							success: function(data) {
+								if(data){
+									var jsonData = JSON.parse(data);
+									if (data == 0) {
+										util.showTips('error', '操作失败！');
+										setTimeout(function() {
+											window.location.reload();
+										}, 800)
+									} else {
+										util.showTips('success', '操作成功！');
+										setTimeout(function() {
+											window.location.reload();
+										}, 800)
+									}
+								}
+							}
+						});
+					}
+				}
+			})
+
+			// 复选框全选
+			util.checkAllBoxes($('.tabBodyCon table thead :checkbox'), $('.tabBodyCon table tbody :checkbox'));
+
+			var oAccount = $('#account');
+			var oAccName = $('#accname');
+			var oAccountName = $('#accountname');
+			var oBind = $('#bind');
+			var oNext = $('#next');
+			var oWait = $('#wait');
+			var oOver = $('#over');
+
+			// 去掉2边输入的空格
+			util.fTrim($([
+				oAccount,
+				oAccName,
+				oAccountName
+			]));
+
+			// 添加速卖通帐号
+			$('#addAccount').click(function(){
+				oAccName.removeAttr('disabled');
+				oAccName.val('');
+				oAccountName.val('');
+				oBind.show();
+				oNext.show();
+				oWait.hide();
+				oOver.hide();
+				oAccount.modal('show');
+			});
+
+			// 关闭速卖通帐号
+			$('#close').click(function(){
+				oAccount.modal('hide');
+			});
+
+			// 判断输入
+			$('#next').click(function(){
+			var name=oAccName.val().replace(/(^\s+)|(\s+$)/g,""); // 去除空格正则表达试
+				if(name==''){
+					util.showTips('warning', '账号名不能为空!');
+				}else{
+					$.ajax({
+					url:'?r=oms/shaliexpress/alicheck&name='+name,
+					type:'get',
+					dataType:'json',
+					cache : false,
+					success:function(data){
+						if(data.statu == 1){
+							util.showTips('warning', '您输入速卖通账号已经存在！');
+						}else{
+							// window.open();
+							oBind.hide();
+							oWait.show();
+							oNext.hide();
+							oOver.hide();
+						}
+					}
+				});
+				}
+			});
+
+			// 点击登录  跳转页面时
+			$('#wait').click(function(){
+				oBind.hide();
+				oWait.hide();
+				oNext.hide();
+				oOver.show();
+			})
+
+			// 点击完成时
+			$('#over').click(function(){
+				oAccount.modal('hide');
+				// 检测授权是否成功
+				$.ajax({
+					url:'?r=oms/shaliexpress/WhetherAuth',
+					type:'get',
+					dataType:'json',
+					success:function(data){
+						if(data.status){
+							util.showTips('success', data.msg);
+							// 授权成功后重新加载页面
+							setTimeout(function() {
+								window.location.reload();
+							}, 800);
+						}else{
+							util.showTips('warning', data.msg);
+						}
+					}
+				});
+
+			})
+
+			// 重新授权
+			$('.againAccredit').click(function(){
+				var id = $(this).parents('tr').attr('data-id');
+				oAccount.modal('show');
+				oBind.hide();
+				oWait.show();
+				oNext.hide();
+				oOver.hide();
+				$.ajax({
+					url:'?r=oms/shaliexpress/Receive&state='+id,
+					type:'get',
+					dataType:'json',
+					cache : false,
+					success:function(data){
+					}
+				});
+			});
+		});
+	</script>
+	{/literal}
+</body>
+</html>

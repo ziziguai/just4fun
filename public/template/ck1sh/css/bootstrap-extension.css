@@ -1,0 +1,365 @@
+/* 扩展bootstrap.css */
+/* 固定格珊 */
+.span1-7 {
+  width: 130px;
+}
+.span1-6 {
+  width: 120px;
+}
+.span1-5 {
+  width: 110px;
+}
+.span1-4 {
+  width: 100px;
+}
+.span1-3 {
+  width: 90px;
+}
+.span1-2 {
+  width: 80px;
+}
+.span1-1 {
+  width: 70px;
+}
+.span0-5 {
+  width: 50px;
+}
+.span0-4 {
+  width: 40px;
+}
+.span0-3 {
+  width: 30px;
+}
+.span0-2 {
+  width: 20px;
+}
+.span0-1 {
+  width: 10px;
+}
+
+/* 流式格珊 width=width/940px; *width=(width-0.5px)/940px */
+.row-fluid .span1-7 {
+  width: 12.76595744680851;
+  *width: 12.71276595744681;
+}
+.row-fluid .span1-6 {
+  width: 12.76595744680851%;
+  *width: 12.71276595744681%;
+}
+.row-fluid .span1-5 {
+  width: 11.70212765957447;
+  *width: 11.64893617021277;
+}
+.row-fluid .span1-4 {
+  width: 10.63829787234043%;
+  *width: 10.58510638297873%;
+}
+.row-fluid .span1-3 {
+  width: 9.574468085106383;
+  *width: 9.521276595744681;
+}
+.row-fluid .span1-2 {
+  width: 8.51063829787234%;
+  *width: 8.457446808510638%;
+}
+.row-fluid .span1-1 {
+  width: 7.446808510638298;
+  *width: 7.393617021276596;
+}
+.row-fluid .span0-5 {
+  width: 5.319148936170213;
+  *width: 5.265957446808511;
+}
+.row-fluid .span0-4 {
+  width: 4.25531914893617%;
+  *width: 4.202127659574468%;
+}
+.row-fluid .span0-3 {
+  width: 3.191489361702128%;
+  *width: 3.138297872340426%;
+}
+.row-fluid .span0-2 {
+  width: 2.127659574468085%;
+  *width: 2.074468085106383%;
+}
+.row-fluid .span0-1 {
+  width: 1.063829787234043%;
+  *width: 1.010638297872341%;
+}
+
+/* 表单流式格珊 */
+input.span1-7
+textarea.span1-7
+.uneditable-input.span1-7 {
+  width: 116px;
+}
+input.span1-6
+textarea.span1-6
+.uneditable-input.span1-6 {
+  width: 106px;
+}
+input.span1-5
+textarea.span1-5
+.uneditable-input.span1-5 {
+  width: 96px;
+}
+input.span1-4
+textarea.span1-4
+.uneditable-input.span1-4 {
+  width: 86px;
+}
+input.span1-3
+textarea.span1-3
+.uneditable-input.span1-3 {
+  width: 76px;
+}
+input.span1-2
+textarea.span1-2
+.uneditable-input.span1-2 {
+  width: 66px;
+}
+input.span1-1
+textarea.span1-1
+.uneditable-input.span1-1 {
+  width: 56px;
+}
+input.span0-5,
+textarea.span0-5
+.uneditable-input.span0-5 {
+  width: 36px;
+}
+input.span0-4,
+textarea.span0-4
+.uneditable-input.span0-4 {
+  width: 26px;
+}
+input.span0-3,
+textarea.span0-3
+.uneditable-input.span0-3 {
+  width: 16px;
+}
+
+/* 表格流式格珊 */
+.table td.span1-7
+.table th.span1-7 {
+  float: none;
+  width: 114px;
+  margin-left: 0;
+}
+.table td.span1-6
+.table th.span1-6 {
+  float: none;
+  width: 104px;
+  margin-left: 0;
+}
+.table td.span1-5
+.table th.span1-5 {
+  float: none;
+  width: 94px;
+  margin-left: 0;
+}
+.table td.span1-4
+.table th.span1-4 {
+  float: none;
+  width: 84px;
+  margin-left: 0;
+}
+.table td.span1-3
+.table th.span1-3 {
+  float: none;
+  width: 74px;
+  margin-left: 0;
+}
+.table td.span1-2
+.table th.span1-2 {
+  float: none;
+  width: 64px;
+  margin-left: 0;
+}
+.table td.span1-1
+.table th.span1-1 {
+  float: none;
+  width: 54px;
+  margin-left: 0;
+}
+.table td.span0-5,
+.table th.span0-5 {
+  float: none;
+  width: 34px;
+  margin-left: 0;
+}
+.table td.span0-4,
+.table th.span0-4 {
+  float: none;
+  width: 24px;
+  margin-left: 0;
+}
+.table td.span0-3,
+.table th.span0-3 {
+  float: none;
+  width: 14px;
+  margin-left: 0;
+}
+
+/* 表单提示色 */
+.warning.checkbox,
+.warning.radio,
+input.warning,
+select.warning,
+textarea.warning {
+  color: #c09853;
+}
+
+input.warning,
+select.warning,
+textarea.warning {
+  border-color: #c09853;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+     -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+
+input:focus.warning,
+select:focus.warning,
+textarea:focus.warning {
+  border-color: #a47e3c;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #dbc59e;
+     -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #dbc59e;
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #dbc59e;
+}
+
+.warning.input-prepend.add-on,
+.warning.input-append.add-on {
+  color: #c09853;
+  background-color: #fcf8e3;
+  border-color: #c09853;
+}
+
+.error.control-label,
+.error.help-block,
+.error.help-inline {
+  color: #b94a48;
+}
+
+.error.checkbox,
+.error.radio,
+input.error,
+select.error,
+textarea.error {
+  color: #b94a48;
+}
+
+input.error,
+select.error,
+textarea.error {
+  border-color: #b94a48;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+     -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+
+input:focus.error,
+select:focus.error,
+textarea:focus.error {
+  border-color: #953b39;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #d59392;
+     -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #d59392;
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #d59392;
+}
+
+.error.input-prepend.add-on,
+.error.input-append.add-on {
+  color: #b94a48;
+  background-color: #f2dede;
+  border-color: #b94a48;
+}
+
+.success.control-label,
+.success.help-block,
+.success.help-inline {
+  color: #468847;
+}
+
+.success.checkbox,
+.success.radio,
+input.success,
+select.success,
+textarea.success {
+  color: #468847;
+}
+
+input.success,
+select.success,
+textarea.success {
+  border-color: #468847;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+     -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+
+input:focus.success,
+select:focus.success,
+textarea:focus.success {
+  border-color: #356635;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #7aba7b;
+     -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #7aba7b;
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #7aba7b;
+}
+
+.success.input-prepend.add-on,
+.success.input-append.add-on {
+  color: #468847;
+  background-color: #dff0d8;
+  border-color: #468847;
+}
+
+.info.control-label,
+.info.help-block,
+.info.help-inline {
+  color: #3a87ad;
+}
+
+.info.checkbox,
+.info.radio,
+input.info,
+select.info,
+textarea.info {
+  color: #3a87ad;
+}
+
+input.info,
+select.info,
+textarea.info {
+  border-color: #3a87ad;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+     -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+
+input:focus.info,
+select:focus.info,
+textarea:focus.info {
+  border-color: #2d6987;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #7ab5d3;
+     -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #7ab5d3;
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #7ab5d3;
+}
+
+.info.input-prepend.add-on,
+.info.input-append.add-on {
+  color: #3a87ad;
+  background-color: #d9edf7;
+  border-color: #3a87ad;
+}
+
+/* Modal改进 */
+/* 重写backdrop */
+.modal-backdrop.fade {
+  opacity: 0;
+}
+
+.modal-backdrop,
+.modal-backdrop.fade.in{
+  opacity: 0.3;
+  filter: alpha(opacity=30);
+}

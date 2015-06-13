@@ -1,0 +1,51 @@
+{include file='ck1sh/_partials/head_inc.html'}
+<body>
+	<div class="wrap">
+		<ul class="breadcrumb" style="background-color: transparent;">
+            <li><a href="?">首页</a>&nbsp;<span class="divider">/</span></li>
+            <li class="active">Selling Helper</li>
+        </ul>
+	    <div class="page-header">
+	    	<h1><small>订单管理</small></h1>
+	    </div>
+	    <div class="row-fluid">
+            <ul class="thumbnails">
+            {foreach from=$platformCodeName key=code item=name}
+				<li class="span2">
+					<a href="?r=oms/shorder/normal&platform={$code}" class="thumbnail" style="background-color: #0088cc; height: 128px; text-decoration: none;">
+						<h1 class="text-center" style="color: white; padding-top: 32px; font-size: 32px;">{$name}</h1>
+					</a>
+				</li>
+			{/foreach}
+            </ul>
+		</div>
+	    <div class="page-header">
+	    	<h1><small>其他</small></h1>
+	    </div>
+	    <div class="row-fluid">
+            <ul class="thumbnails">
+				<li class="span2">
+					<a href="?r=oms/shproduct/productsku" class="thumbnail blue-block" style="background-color: #0088cc; height: 128px; text-decoration: none;">
+						<h1 class="text-center" style="color: white; padding-top: 32px; font-size: 32px;">产品信息管理</h1>
+					</a>
+				</li>
+				<li class="span2" style="display:none;">
+					<a href="http://demo.chukou1.cn/Client/SellingHelper/ShippingMap/ShippingMapIndex.aspx" class="thumbnail blue-block" style="background-color: #0088cc; height: 128px; text-decoration: none;">
+						<h1 class="text-center" style="color: white; padding-top: 32px; font-size: 32px;">发货方式设置</h1>
+					</a>
+				</li>
+				<li class="span2">
+					<a href="?r=oms/shproduct/salesku" class="thumbnail blue-block" style="background-color: #0088cc; height: 128px; text-decoration: none;">
+						<h1 class="text-center" style="color: white; padding-top: 32px; font-size: 32px;">销售SKU设置</h1>
+					</a>
+				</li>
+				<li class="span2">
+					<a href="?r=oms/shshipping/matchShipWay" class="thumbnail blue-block" style="background-color: #0088cc; height: 128px; text-decoration: none;">
+						<h1 class="text-center" style="color: white; padding-top: 32px; font-size: 32px;">智能匹配发货方式</h1>
+					</a>
+				</li>
+            </ul>
+		</div>
+    </div>
+</body>
+</html>

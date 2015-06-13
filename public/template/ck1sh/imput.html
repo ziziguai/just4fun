@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Insert title here</title>
+</head>
+<body>
+<p>亚马逊账户名
+  {foreach from=$azAccounts item=it}
+  <label>
+    <input class = 'btnchecked' type="radio" name="azAccount" value="{$it.account_id}" txt="{$it.account_name}"/>
+    {$it.account_name} </label>
+  {/foreach}
+  <label>
+    <input type="radio" name="azAccount" value="0" txt="">
+    新账户名 </label> </p>
+<form action=''  method="post" enctype="multipart/form-data">
+  <p>
+    <input name="sellerID" type="text" value="">
+    <input name="sellerIDID" type="hidden" value="">
+    （此项能保证在amazon上传tracking的正确率）</p>
+  <input name="filename" type="file" id="filename">
+  <input type='submit' id="doCheck" name='submit' value='导入' class="btn btn-warning">
+</form>
+<hr>
+<p>温馨提示</p>
+<ul>
+  <li>上传亚马逊订单是在出口易下单的第一步，上传的文件必须是在亚马逊系统上下载的订单txt文件或转换后的excel文件；</li>
+  <li>上传成功的数据会显示在&ldquo;待下单&rdquo;；</li>
+  <li>统一设置亚马逊SKU与出口易产品型号，为您自动匹配重量、申报价值等产品信息。<a href="http://www.chukou1.com/doc/sellinghelper/SKUInfoMapping(Amazon).pdf" target="_blank">操作说明文档</a></li>
+</ul>
+</body>
+{literal}
+<script src="public/template/ck1sh/js/jquery-1.8.3.js"></script>
+<script>
+$("input[name='azAccount']").each(function(index, element) {
+    $(element).click(function(e) {
+        $("input[name='sellerID']").val($(this).attr('txt'));
+        $("input[name='sellerIDID']").val($(this).val());
+    });
+});
+$("body .btnchecked").eq(1).attr("checked","checked");
+</script>
+{/literal}
+</html>

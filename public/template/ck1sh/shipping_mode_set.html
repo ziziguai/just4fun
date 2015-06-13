@@ -1,0 +1,177 @@
+{include file='ck1sh/_partials/head_inc.html'}
+<body>
+	<!--顶部警告框-->
+	<div class="topWarn"></div>
+	<!--匹配订单弹窗--start-->
+	<div class="TCGB matchingOrderTC">
+		<div class="TCCON matchingOrderTCCon">
+			<h2>
+				<span>匹配到订单</span>
+				<b class="TCCloseBtn">关闭</b>
+			</h2>
+			<div class="matchingOrderTCBody">
+				<p>请选择您要匹配的平台</p>
+				<p><label><input type="checkbox" />eBay订单</label></p>
+				<p><label><input type="checkbox" />亚马逊订单</label></p>
+				<p><label><input type="checkbox" />速卖通订单</label></p>
+				<p><label><input type="checkbox" />Wish订单</label></p>
+			</div>
+			<div class="TCFooter">
+				<a href="javascript:;" class="btn btn-primary">确定</a>
+				<a href="javascript:;" class="btn TCCloseBtn">取消</a>
+			</div>
+		</div>
+	</div>
+	<!--匹配订单弹窗--end-->
+	<div class="wrap">
+		<ul class="breadcrumb" style="background-color: transparent;">
+			<li><a href="http://demo.chukou1.cn/Client/Home/Home.aspx">首页</a>&nbsp;<span class="divider">/</span></li>
+		    <li><a href="?r=oms/home">Selling Helper</a>&nbsp;<span class="divider">/</span></li>
+		    <li class="active">发货方式设置</li>
+	    </ul>
+		<div class="tabHead"></div>
+		<div class="content">
+			<div class="tabBody">
+				<div class="tabBodyHead">
+					<div class="sel">
+						<div class="selLeft">
+							<p><b>智能匹配发货方式</b></p>
+							<p>您可预先设置智能匹配发货方式的规则，编辑完成及启用后，系统将会在同步订单成功后自动为您选择发货方式。</p>
+							<p>如果您设置了多个规则的，可调节规则的优先级，当规则间有冲突的时候，系统会以优先级高的规则为准。</p>
+						</div>
+						<div class="selRight" style="margin-top:50px;">
+							<a class="btn btn-primary addSKU">匹配到订单</a>
+							<a class="btn btn-warning opStatus" data-op="1">启用</a>
+							<a class="btn btn-warning opStatus" data-op="0">停用</a>
+						</div>
+						<div class="clear"></div>
+					</div>
+				</div>
+				<div class="tabBodyCon">
+					<table class="table table-striped table-hover">
+						<thead>
+							<tr>
+								<th>
+									<input type="checkbox" />
+								</th>
+								<th width="10%">优先级</th>
+								<th>状态</th>
+								<th>规则名称</th>
+								<th>规则说明</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+						<tbody>
+							{if ($category eq null)}
+								<tr>
+									<td colspan="13" align="center">无数据</td>
+								</tr>
+							{else} {foreach from = $category key = k item = i}
+								<tr data-id='{$i.category_id}'>
+									<td>
+										<input type="checkbox" />
+									</td>
+									<td width="10%">
+										{if ($k eq 0)}
+											<span><i class="icon-arrow-down changePriority" data-op="2"></i></span>
+										{elseif ($k eq 3)}
+											<span><i class="icon-arrow-up changePriority" data-op="1"></i></span>
+										{else}
+											<span><i class="icon-arrow-up changePriority" data-op="1"></i></span>
+											<span><i class="icon-arrow-down changePriority" data-op="2"></i></span>
+										{/if}
+									</td>
+								{if ($i.status)}
+									<td>
+										<span>已启用</span>
+									</td>
+								{else}
+									<td>
+										<span>已停用</span>
+									</td>
+								{/if}
+								<td>
+									<span>{if ($i.category == 1)} SKU智能匹配 
+										  {elseif ($i.category == 2)} 重量智能匹配
+										  {elseif ($i.category == 3)} 申报价值智能匹配
+										  {elseif ($i.category == 4)} 买家选择物流智能匹配
+										  {/if}
+									</span>
+								</td>
+								<td>
+									<span>{if ($i.category == 1)} 为每一个SKU指定一个发货方式，设置成功后系统将会为您自动匹配。。
+										  {elseif ($i.category == 2)} 通过不同的重量段指定出口易的发货方式。
+										  {elseif ($i.category == 3)} 通过设定申报价值范围来指定出口易的发货方式。
+										  {elseif ($i.category == 4)} 通过买家物流选择来指定出口易的发货方式 
+										  {/if}
+									</span>
+								</td>
+								<td>
+									<span><a href="?r=oms/shshipping/MatchingRules&type={$i.category}">查看</a></span>
+								</td>
+							</tr>
+							{/foreach} {/if}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	{literal}
+	<script>
+		"use strict";
+		require(['util'], function(util){
+			$(function() {
+				$('body').attr('id', 'shippingModeSet');
+				// 匹配订单关闭弹窗
+				// util.TCClose($('.matchingOrderTCCon .TCCloseBtn'),$('.matchingOrderTC'))
+				// 复选框全选
+				util.checkAllBoxes($('.tabBodyCon table thead :checkbox'), $('.tabBodyCon table tbody :checkbox'));
+			});
+
+			/**
+	         * 起/停用规则
+	         * @author Zijie Yuan
+	         * @date 2015-06-08 09:29:12
+	         */
+			$('.opStatus').click(function() {
+				var idsCheck = util.getAllId($('.tabBodyCon tbody tr input[type=checkbox]:checked'));
+				if (idsCheck.length == 0) {
+					util.showTips('warning', '请勾选复选框!');
+					return false;
+				}
+				var iRuleStatus = $(this).data('op');
+				$.post('?r=oms/shshipping/ChangeRulesStatus', {op: iRuleStatus, ids: idsCheck},function(data) {
+					if (data.status) {
+						util.showTips('success','操作成功!');
+						return true;
+					}
+					util.showTips('error','操作失败!');
+					setTimeout((function(){
+						location.reload();
+					}),1500);
+				});
+			});
+
+			/**
+	         * 改变优先级
+	         * @author Zijie Yuan
+	         * @date 2015-06-08 09:29:12
+	         */
+			$('.changePriority').click(function() {
+				var iCid = $(this).closest('tr').data('id');
+				var iOp = $(this).data('op');
+				$.post('?r=oms/shshipping/changePriority', {op: iOp, cid: iCid}, function(data) {
+					if (data.status) {
+						showTips('success', '操作成功!');
+						return true;
+					}
+					showTips('error', '操作失败!');
+					setTimeout(function(){location.reload();},1500);
+				});
+			});
+		});
+	</script>
+	{/literal}
+</body>
+</html>

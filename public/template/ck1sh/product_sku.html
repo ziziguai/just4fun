@@ -1,0 +1,326 @@
+{include file='ck1sh/_partials/head_inc.html'}
+<body>
+	<div class='loading'></div>
+	<!--顶部警告框-->
+	<div class="topWarn"></div>
+	<!--添加SKU弹窗--start-->
+	<div id="addSku" class="addSKUTCCON modal hide fade">
+		<div class="modal-header">
+			<h3>
+				<span>添加产品信息</span>
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+			</h3>
+		</div>
+		<div class="modal-body addSKUTCBody">
+			<p>
+				<span>SKU</span>
+				<input type="text" name="sku" />
+				<b>*</b>
+			</p>
+			<p>
+				<span>产品类别</span>
+				<input type="text" name="category" />
+				<b></b>
+			</p>
+			<p>
+				<span>产品重量(g)</span>
+				<input type="text" name="weight" />
+				<b>*</b>
+			</p>
+			<p>
+				<span>包装规格<br>(长*宽*高 cm)</span>
+				<input type="text" name="packing" />
+				<b>*</b>
+			</p>
+			<p>
+				<span>申报名称</span>
+				<input type="text" name="declareName" />
+				<b>*</b>
+			</p>
+			<p>
+				<span>申报价值(USD)</span>
+				<input type="text" name="declareValue" />
+				<b>*</b>
+			</p>
+			<p>
+				<span>产品备注</span>
+				<input type="text" name="remark" />
+				<b></b>
+			</p>
+		</div>
+		<div class="modal-footer">
+			<span style="color:red;float:left;"></span>
+			<input type="button" value="保存" class="btn btn-primary" />
+			<button type="button" class="btn" data-dismiss="modal" aria-hidden="true">取消</button>
+		</div>
+	</div>
+	<!--添加SKU弹窗--end-->
+
+	<!--匹配订单弹窗--start-->
+	<div id="matching" class="matchingOrderTC modal hide fade">
+		<div class="modal-header">
+			<h3>
+				<span>匹配到订单</span>
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+			</h3>
+		</div>
+		<div class="modal-body matchingOrderTCBody ">
+			<p>请选择您要匹配的平台</p>
+			<p data-id="100"><label><input type="checkbox" />eBay订单</label></p>
+			<p data-id="101"><label><input type="checkbox" />亚马逊订单</label></p>
+			<p data-id="102"><label><input type="checkbox" />速卖通订单</label></p>
+			<p data-id="104"><label><input type="checkbox" />Wish订单</label></p>
+		</div>
+		<img class="matching2order" src="public/template/ck1sh/img/loading.gif">
+		<div class="modal-footer">
+			<a href="javascript:;" class="btn btn-primary sure">确定</a>
+			<button type="button" class="btn" data-dismiss="modal" aria-hidden="true">取消</button>
+		</div>
+	</div>
+	<!--匹配订单弹窗--end-->
+	<div class="wrap">
+		<ul class="breadcrumb" style="background-color: transparent;">
+			<li><a href="http://demo.chukou1.cn/Client/Home/Home.aspx">首页</a>&nbsp;<span class="divider">/</span></li>
+		    <li><a href="?r=oms/home">Selling Helper</a>&nbsp;<span class="divider">/</span></li>
+		    <li class="active">产品信息管理</li>
+	    </ul>
+		<div class="tabHead">
+			<ul>
+				<li><a href="#" class="tabActive">产品信息管理</a></li>
+			</ul>
+			<div class="clear"></div>
+		</div>
+		<div class="content">
+			<div class="tabBody">
+				<div class="tabBodyHead">
+					<div class="sel">
+						<div class="selLeft">
+							<p>请在此页面导入产品信息。SKU一栏即出口易产品型号的产品名称。</p>
+							<p>导入成功后，系统在同步订单或者上传订单的同时，将会根据SKU来匹配对应的重量、规格等信息，您也可以随时将产品信息匹配到待下单订单中。</p>
+						</div>
+						<div class="selRight">
+							<a class="btn btn-primary addSKU">添加</a>
+							<a href="index.php?r=oms/shproduct/ImportProductSku" class="btn btn-warning">批量导入</a>
+							<a id="matchOrder" class="btn btn-warning matchingOrder" data-trigger="hover" data-content="系统将通过SKU,把已导入的所有产品信息与您选择的平台待下单订单进行匹配。" data-placement="bottom">匹配到订单</a>
+							<a class="btn btn-warning deleteSku">删除</a>
+						</div>
+						<div class="clear"></div>
+					</div>
+				</div>
+				<!--添加SKU-->
+				<div class="tabBodyCon">
+					<table class="table table-striped table-hover">
+						<thead>
+							<tr>
+								<th>全选<input type="checkbox" /></th>
+								<th>SKU</th>
+								<th>产品类别</th>
+								<th>重量(g)</th>
+								<th>包装规格(cm)</th>
+								<th>申报名称</th>
+								<th>申报价值</th>
+								<th>备注</th>
+							</tr>
+						</thead>
+						<tbody>
+							{if ($product eq null)}
+							<tr><td colspan="13" align="center">无数据</td></tr>
+							{else} {foreach from = $product key = k item = i}
+							<tr data-id='{$i.product_sku_id}'>
+								<td><input type="checkbox" /></td>
+								<td><span>{$i.sku}</span></td>
+								<td><span>{$i.category}</span></td>
+								<td><span>{$i.weight}</span></td>
+								<td><span>{$i.packing}</span></td>
+								<td><span>{$i.declare_name}</span></td>
+								<td><span>{$i.declare_price}
+									{if $i.declare_price != '0.00'}({$i.declare_currency}){/if}</span></td>
+								<td><span>{$i.remark}</span></td>
+							</tr>
+							{/foreach} {/if}
+						</tbody>
+					</table>
+					<div id="page-box" class="pagination pagination-right">
+					{$page.html}
+					</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript" src="public/template/ck1sh/js/jquery-1.8.3.js"></script>
+	<script type="text/javascript" src="public/template/ck1sh/js/index.js"></script>
+	<script type="text/javascript" src="public/template/ck1sh/js/bootstrap.min.js"></script>
+	{literal}
+	<script>
+		"use strict";
+		require(['util'], function(util){
+			$(function() {
+				$('body').attr('id', 'productsku');
+				// 点击添加按钮弹窗
+				$('.addSKU').on('click', function() {
+					$(".addSKUTCBody p input[type=text]").attr("value","");
+					$('.modal-footer span').html('');
+					$('#addSku').modal('show');
+				})
+				// 添加SKU关闭弹窗
+				util.TCClose($('.addSKUTC .TCCloseBtn'), $('.addSKUTC'));
+				// 匹配订单关闭弹窗
+				util.TCClose($('.TCCloseBtn'),$('.matchingOrderTC'));
+
+				$(".TCCloseBtn").on("click",function(){
+					$(".matchingOrderTCBody  input[type=checkbox]").attr("checked",false);
+				})
+				// 复选框全选
+				util.checkAllBoxes($('.tabBodyCon table thead :checkbox'), $('.tabBodyCon table tbody :checkbox'));
+
+				// 清除footer提示
+				$('#addSku .modal-footer button').on('click',function() {
+					$('#addSku .modal-footer span').html('');
+				});
+				// 获取选取的tr
+				function getCheckedInfo() {
+					var $oCheck = $('tbody tr input[type=checkbox]:checked');
+					if ($oCheck.length) {
+						return $oCheck.closest('tr');
+
+					} else {
+						return false;
+					}
+				};
+				$('#matchOrder').popover('hide');
+				// 点击匹配到订单弹窗
+				$('#matchOrder').on('click',function(){				
+					$('#matching').modal('show');
+					$(".matchingOrderTCBody input[type=checkbox]").attr("checked",false);
+				});
+
+				// 删除产品sku信息
+				$('.deleteSku').on('click',function(){
+					var getAllId_str = util.getAllId($('.tabBodyCon tbody tr input[type=checkbox]:checked'));
+					if (getAllId_str.length == 0) {
+						util.showTips('warning', '请勾选复选框!');
+					} else {
+						var conf = confirm('您确认删除选定的产品型号吗？');
+						if(conf == true){
+							$('.loading').css('display','block');
+							$.ajax({
+								url: "?r=oms/shproduct/delproductsku&pid=" + getAllId_str,
+								success: function(data) {
+									$('.loading').css('display','none');
+									if (!data['Success'].length && !data['Failure'].length) {
+										util.showTips('error', '请求出错！');
+									}else if(!data['Failure'].length && data['Success'].length){
+										util.showTips('success', '你选择了 '+data['Success'].length+' 条数据，全部删除成功！');
+									}else{
+										util.showTips('error', '你选择了'+(data['Success'].length+data['Failure'].length)+'条数据，其中'+data['Success'].length+'条删除成功！产品'+data['Failure']+'不能被删除，因为已被使用!',4000);
+									}
+									setTimeout(function() {
+										window.location.reload();
+									}, 3000)
+									$(".tabBodyCon thead input[type=checkbox]").attr("checked",false);
+									$(".tabBodyCon tbody td input[type=checkbox]").attr("checked",false);
+								}
+							});
+						}
+					}
+				});
+
+				// 添加产品sku信息
+				$('.modal-footer .btn-primary').on('click',function(){
+					var patrnSku=/^[^\'\"\<\>\&]*$/;
+					var package_size_input = /^\d+(\.\d{1,2})?\*\d+(\.\d{1,2})?\*\d+(\.\d{1,2})?$/;
+					var sku = $("input[name='sku']").val();
+					var category = $("input[name='category']").val();
+					var weight = $("input[name='weight']").val();
+					var packing = $("input[name='packing']").val();
+					var declareName = $("input[name='declareName']").val();
+					var declareValue = $("input[name='declareValue']").val();
+					var remark = $("input[name='remark']").val();
+					if(!sku || !weight || !packing || !declareName || !declareValue){
+						$('.modal-footer span').html('必填项不能为空,请填写完整！');
+						return false;
+					}
+					if(!patrnSku.test(sku)){
+						$('.modal-footer span').html('SKU格式有误,请重新输入！');
+						return false;
+					}
+					if(isNaN(weight) || weight =='' || weight == 0) {
+						$('.modal-footer span').html('产品重量有误,请重新输入！');
+					}
+					if(!util.testSpec(packing)) {
+						$('.modal-footer span').html('产品规格有误(长宽高，不能超过8位数),请重新输入!');
+						return false;
+					}
+					if(!package_size_input.test(packing)){
+						$('.modal-footer span').html('产品规格有误(只能有俩位小数),请重新输入！');
+						return false;
+					}
+					if (isNaN(declareValue) || declareValue =='' || declareValue == 0) {
+						$('.modal-footer span').html('申报价格有误,请重新输入！');
+						return false;
+					}
+
+					$.ajax({
+						url: "index.php?r=oms/shproduct/AddProductSku&sku="+sku+"&weight="+weight+"&category="+category+"&packing="+packing+"&declareName="+declareName+"&declareValue="+declareValue+"&remark="+remark,
+						success: function(data) {
+							var jsonData = data;
+							if(jsonData['code'] == '003'){
+								$('.addSKUTCBody input').val('');
+								util.showTips('success', data['msg']);
+								setTimeout(function() {
+									window.location.reload();
+								}, 1200);
+							}else{
+								util.showTips('error', data['msg']);
+							}
+						}
+					});
+				});
+
+				// 匹配产品信息到订单
+				$('#matching .modal-footer .sure').on('click',function(){
+					var getAllId_str = util.getAllId($('.matchingOrderTCBody p input[type=checkbox]:checked'));
+					$('.sure').html("正在匹配产品信息");
+					$('.sure').attr("disabled","disabled");
+					if(getAllId_str.length == 0){
+						util.showTips('warning', '请选择订单类型!');
+						$('.sure').html("确定");
+						$('.sure').removeAttr("disabled");
+						return false;
+					}
+					$('.matching2order').show();
+					$.ajax({
+						url: 'index.php?r=oms/shproduct/MatchOrder&pid='+getAllId_str,
+						success: function(data) {
+							if(data['code'] == '003'){
+								$('.matching2order').hide();
+								setTimeout(function() {
+									window.location.reload();
+								}, 2000);
+								util.showTips('success', data['msg']);
+							}else{
+								$('.matching2order').hide();
+								$('.sure').html("确定");
+								$('.sure').removeAttr("disabled");
+								util.showTips('error', data['msg']);
+							}
+						}
+					});
+				});
+
+				var $oPageSelect = $('#page-box select');
+				var sPageSize = location.search.split('&')[2];
+				if (sPageSize) {
+					$oPageSelect.find('option[value="' + sPageSize.split('=')[1] + '"]').prop('selected', true);
+				}
+				/* 每页显示多少条数据 */
+				$oPageSelect.on('change', function() {
+					location.search = '?r=oms/shproduct/productsku&page=1&psize=' + $(this).val();
+				});
+			});
+		});
+	</script>
+	{/literal}
+</body>
+</html>

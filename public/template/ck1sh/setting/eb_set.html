@@ -1,0 +1,141 @@
+{include file='ck1sh/_partials/head_inc.html'}
+<body>
+	<!--顶部警告框-->
+	<div class="topWarn"></div>
+	<div class="wrap">
+		<ul class="breadcrumb" style="background-color: transparent;">
+            <li><a href="http://demo.chukou1.cn/Client/Home/Home.aspx">首页</a>&nbsp;<span class="divider">/</span></li>
+            <li><a href="?r=oms/home">Selling Helper</a>&nbsp;<span class="divider">/</span></li>
+            <li><a href="?r=oms/shorder/normal&platform={$platform}">{$platformName}</a>&nbsp;<span class="divider">/</span></li>
+            <li class="active">设置</li>
+        </ul>
+		<!--基本参数设置--start-->
+		<div class="setBox" style="padding:15px";>
+			<h3>基本参数设置</h3>
+			 <form id="nosubmit_form" onSubmit="return false;">
+			<div class="setBoxBody" >
+				<p>
+					<span>SKU：</span>
+					<select name="SKU_PRINT" id="Config_SKUSettings" class="input-xlarge">
+						<option value="401" {if $data.4 eq 401} selected{/if} class='CustomLabel'>等于CustomLabel</option>
+						<option value="402" {if $data.4 eq 402} selected{/if} class='CustomLabel'>是CustomLabel的一部分（使用分隔符）</option>
+						<option value="403" {if $data.4 eq 403} selected{/if} class='CustomLabel'>是CustomLabel的一部分（前几位字符）</option>
+					</select>
+					<b class="help-inline">*</b>
+				</p>
+				<p id='skupart1' style="display:none;"><span>分隔符号：</span>
+				     <input name="SKU_SEPARATOR" type="text" value="{$data.5}" maxlength="16">
+				     <b class="help-inline">* 截取第一个分隔符之前的部分</b>
+				</p>
+				<p id='skupart2' style="display:none;"><span>SKU长度：</span>
+				     <input name="SKU_PREV_LENGTH" type="text" value="{$data.6}" maxlength="16">
+				     <b class="help-inline">* 截取固定长度的前面部分</b>
+				</p>
+				<p>
+					<span>直发订单自定义标识：</span>
+						<label>
+			            <input name="DIRECT_SHIPMENTS_ORDER_MARK" type="radio" value='702'{if $data.7 eq 702} checked{/if}>
+			                                 订单号</label>
+			           <label>
+			            <input name="DIRECT_SHIPMENTS_ORDER_MARK" type="radio" value='703'{if $data.7 eq 703} checked{/if}>
+			            SKU</label>
+			           <label>
+			            <input name="DIRECT_SHIPMENTS_ORDER_MARK" type="radio" value='704'{if $data.7 eq 704} checked{/if}>
+			            订单号+SKU</label>
+			          <label>
+			            <input name="DIRECT_SHIPMENTS_ORDER_MARK" type="radio" value='707'{if $data.7 eq 707} checked{/if}>
+			            订单号+SKU+Seller</label>
+					</p>
+					<p>
+						<span></span>
+						<label>
+			            <input name="DIRECT_SHIPMENTS_ORDER_MARK" type="radio" value='705'{if $data.7 eq 705} checked{/if}>
+			            申报名称</label>
+			          <label>
+			            <input name="DIRECT_SHIPMENTS_ORDER_MARK" type="radio" value='706'{if $data.7 eq 706} checked{/if}>
+			            订单号+申报名称</label>
+			          <label>
+			            <input name="DIRECT_SHIPMENTS_ORDER_MARK" type="radio" value='708'{if $data.7 eq 708} checked{/if}>
+			            订单号+申报名称+Seller</label>
+					</p>
+					<p>
+						<span>同步订单：</span>
+						<label>
+							<input type="checkbox" name="ORDER_SETTING" value = "100" id="" {if $data.1 eq 100} checked{/if}/> 系统自动同步订单到SellingHelper
+						</label>
+					</p>
+					<p>
+						<span>上传挂号：</span>
+						<label>
+							<input type="checkbox" name="UPLOAD_TRACKING" value = "300" id="" {if $data.3 eq 300} checked{/if}/> 同步挂号后，自动上传挂号到eBay(需绑定eBay账号)
+						</label>
+					</p>
+				<div class="SetFooter">
+					<input type="button" name="" value="保存" id="saveconfig" class="btn btn-primary" onclick = "showEditWindows();">
+					<a href="?r=oms/shorder/normal&platform=100">返回上一级</a>
+				</div>
+				</div>
+				</form>
+			</div>
+		</div>
+	<!--基本参数设置--end-->
+	</div>
+	{literal}
+	<script>
+		"use strict";
+		require(['util'], function(util){
+			function showEditWindows(){
+				if($("[name=SKU_PRINT]").val()==403){
+					if(isNaN($("[name=SKU_PREV_LENGTH]").val()) || $("[name=SKU_PREV_LENGTH]").val() == 0 ){
+						$("[name=SKU_PREV_LENGTH]").addClass('redBorder');
+						util.showTips('error','SKU长度必须是数字而且大于0！');
+						return;
+					}else{
+						$("[name=SKU_PREV_LENGTH]").removeClass('redBorder');
+					}
+				}
+				if($("[name=SKU_PRINT]").val()==402){
+					if($("[name=SKU_SEPARATOR]").val() == ''){
+						$("[name=SKU_SEPARATOR]").addClass('redBorder');
+						util.showTips('error','分隔符号不能为空！');
+						return;
+					}else{
+						$("[name=SKU_SEPARATOR]").removeClass('redBorder');
+					}
+				}
+				$.post("index.php?r=oms/shebay/EbSaveSetup",$("#nosubmit_form").serialize(),
+					function(data){
+						if(data>0){
+							util.showTips('success','修改成功！！！');
+						}else if(data==0){
+							util.showTips('info','数据没有改变！');
+						}else{
+							util.showTips('error','修改失败！！！');
+						}
+					});
+			}
+			$('#Config_SKUSettings').change(function(){
+				displayCog()
+			});
+
+			function displayCog(){
+				if($("[name=SKU_PRINT]").val()==402){
+					$('#skupart1').show();
+					$('#skupart2').hide();
+				}else if($("[name=SKU_PRINT]").val()==403){
+					$('#skupart2').show();
+					$('#skupart1').hide();
+				}else{
+					$('#skupart2,#skupart1').hide();
+				}
+			}
+			displayCog();
+
+			$('#return').click(function(){
+				history.back();
+			});
+		});
+	</script>
+	{/literal}
+</body>
+</html>

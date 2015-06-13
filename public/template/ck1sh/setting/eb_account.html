@@ -1,0 +1,374 @@
+{include file='ck1sh/_partials/head_inc.html'}
+<body>
+	<!-- 添加eBay账号弹窗 start-->
+	<div class="modal TCCONBorTop hide fade" style="width: 550px;" id="ebayAccountEditModal">
+		<div class="modal-header">
+			<a class="close" data-dismiss="modal" aria-hidden="true">&times;</a>
+			<h4>添加eBay账号</h4>
+		</div>
+		<div class="modal-body">
+			<div name="ebayEditStep1">
+		        <div class="bordered rounded" style="border: 1px solid #cccccc; background-color: #fafafa; border-radius: 5px;">
+		            <form action="javascript:;" style="width: 220px; margin: auto;">
+		                <div class="control-group">
+			                <h5>您的eBay账号代码:</h5>
+		                    <div class="control">
+			                    <input name="nickNameInput" class="span3" type="text" placeholder="不多于8个大写字母或数字" value=""/>
+		                        <span class="text-error" name="nickNameTips"></span>
+			                    <input name="sessIDInput" type="hidden" value="" />
+		                    </div>
+		                    <a class="btn btn-block btn-middle btn-primary" name="getAuthUrlBtn" href="javascript:;">登录 eBay 授权</a>
+		                </div>
+		            </form>
+		        </div>
+				<div class="dashed-box">
+		            <h6>注意:</h6>
+		            <ol style="1">
+		                <li>我们不会要求您提供您的eBay密码;</li>
+		                <li>帐号代码,由于多个eBay帐号间会存在重复的订单编号(SRN),因此系统的订单编号统一采用eBay帐号代码+SRN的方式进行管理。</li>
+		                <li>例如,帐号代码为AB,SRN为1088的订单,系统中将显示为AB-1088。</li>
+		            </ol>
+		        </div>
+			</div>
+			<div name="ebayEditStep2" class="hide">
+			    <div class="alert alert-info">
+		            如果浏览器没有自动打开eBay登录验证页面,请
+		            <a href="javascript:;" target="_blank" name="authUrlLink"><span style="font-size: large;">【点这里】</span></a>
+		            <i class="fa fa-hand-o-left fa-2x"></i>
+		        </div>
+				<div class="bordered rounded" style="border: 1px solid #cccccc; background-color: #fafafa; border-radius: 5px;">
+		            <form action="javascript:;" style="width: 300px; margin: auto;">
+		                <div class="control-group">
+		                    <h5>请确保完成eBay帐户登录授权操作！</h5>
+		                    <a class="btn btn-middle btn-primary" href="javascript:;" style="width: 100px;" name="finishAuthBtn">完成授权</a>
+		                    <a class="btn btn-middle" href="http://ocsnext.ebay.com/ocs/home" style="width: 100px;" target="_blank">遇到问题</a>
+		                </div>
+		            </form>
+		        </div>
+				<div class="dashed-box">
+		            <ol style="1">
+		                <li>授权完成前请不要关闭此窗口;</li>
+		                <li>授权成功后请根据您的情况选择点击上面的按钮。</li>
+		            </ol>
+		        </div>
+			</div>
+		</div>
+	</div>
+	<!-- 添加eBay账号弹窗 end-->
+	<div class="wrap">
+		<ul class="breadcrumb" style="background-color: transparent;">
+            <li><a href="http://demo.chukou1.cn/Client/Home/Home.aspx">首页</a>&nbsp;<span class="divider">/</span></li>
+            <li><a href="?r=oms/home">Selling Helper</a>&nbsp;<span class="divider">/</span></li>
+            <li><a href="?r=oms/shorder/normal&platform={$platform}">{$platformName}</a>&nbsp;<span class="divider">/</span></li>
+            <li class="active">账号管理</li>
+        </ul>
+		<div class="tabHead">
+			<ul>
+				<li><a href="?r=oms/shebay/manage" class="tabActive">eBay账号</a></li>
+				<li><a href="?r=oms/shpaypal/manage">Paypal账号</a></li>
+			</ul>
+			<div class="tabHeadRight">
+				<a href="?r=oms/shorder/normal&platform={$platform}" class="btn">
+					<i class="fa fa-mail-reply"></i> 返回订单列表</a>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<div class="content">
+			<div class="tabBody">
+				<div class="tabBodyHead">
+					<div class="sel">
+						<div class="selRight">
+							<a type="button" class="btn btn-primary" name="addAccount">添加eBay账号</a>
+							<a type="button" class="btn btn-warning" data-baseop="enable">启用账号</a>
+							<a type="button" class="btn btn-warning" data-baseop="ban">禁用账号</a>
+							<a type="button" class="btn btn-warning" data-baseop="delete">删除账号</a>
+						</div>
+						<div class="clear"></div>
+					</div>
+				</div>
+				<div class="tabBodyCon">
+					<table class="table table-striped table-hover table-condensed">
+						<colgroup>
+							<col width="70px"/>
+							<col />
+							<col />
+							<col />
+							<col />
+							<col />
+							<col width="250px"/>
+						</colgroup>
+						<thead>
+							<tr>
+								<th>
+									<label>
+										全选<input type="checkbox" />
+									</label>
+								</th>
+								<th class="span3">账号</th>
+								<th class="span2">代码</th>
+								<th class="span2">状态</th>
+								<th class="span2">创建时间</th>
+								<th class="span2">最近更新</th>
+								<th class="span1-2">操作</th>
+							</tr>
+						</thead>
+						<tbody>
+							{if ($accountArray eq null)}
+								<tr><td colspan="13" align="center">无数据</td></tr>
+							{else}
+								{foreach from=$accountArray item=account}
+								<tr data-id="{$account.account_id}" >
+									<td><input type="checkbox" data-aid="{$account.account_id}" name="accountLineCheckBox"/></td>
+									<td>{$account.account}</td>
+									<td><span name="displayNickName">{$account.nick_name}</span>&nbsp;
+										<input class="span2 hide" name="editInput" data-aid="{$account.account_id}" type="text" value="{$account.nick_name}"/>
+										<a class="pull-right" href="javascript:;" name="editBtn"><i class="icon icon-pencil"></i></a>
+										<a class="pull-right hide" href="javascript:;" name="editCancelBtn" style="margin-left: 10px;">
+											<i class="icon icon-remove"></i></a>
+										<a class="pull-right hide" href="javascript:;" name="editSaveBtn" data-aid="{$account.account_id}">
+											<i class="icon icon-ok"></i></a>
+									</td>
+									<td><span {if !$account.status}class="text-error"{/if}>{$account.dis_status}</span></td>
+									<td name="time_col">{$account.created_time}</td>
+									<td name="time_col">{$account.updated_time}</td>
+									<td>
+										<a href="javascript:;" name="reFetch" style="margin-left: 10px;" data-aid="{$account.account_id}">
+											重新授权<i class="icon icon-bookmark"></i></a>
+										<!-- 暂时隐藏此功能 -->
+										<!-- <a href="javascript:;" style="margin-left: 10px;">编辑<i class="icon icon-pencil"></i></a> -->
+										<a href="javascript:;" style="margin-left: 10px;" data-baseop="enable" data-aid="{$account.account_id}">
+											启用<i class="icon icon-ok"></i></a>
+										<a href="javascript:;" style="margin-left: 10px;" data-baseop="ban" data-aid="{$account.account_id}">
+											禁用<i class="icon icon-ban-circle"></i></a>
+										<a href="javascript:;" style="margin-left: 10px;" data-baseop="delete" data-aid="{$account.account_id}">
+											删除<i class="icon icon-remove"></i></a>
+									</td>
+								</tr>
+								{/foreach}
+							{/if}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	{literal}
+	<script>
+		"use strict";
+		require(['moment', 'util', 'account'], function(moment, util, account){
+			// 暂时这么处理，后续改为ajax加载
+			$.each($('[name=time_col]td'), function(index, item){
+				$(item).text(moment.unix($(item).text()).format('YYYY-MM-DD HH:mm'));
+			});
+
+			// 复选框全选
+			util.checkAllBoxes($('.tabBodyCon table thead :checkbox'), $('.tabBodyCon table tbody :checkbox'));
+			// 账号启用、禁用、删除基本操作初始化
+			account.initBaseOperation('?r=oms/shebay/base');
+
+			var $ebayAccountEditModal = $('#ebayAccountEditModal');
+			var $addAccountBtn = $('[name=addAccount]');
+			var $ebayEditStep1 = $ebayAccountEditModal.find('[name=ebayEditStep1]');
+			var $ebayEditStep2 = $ebayAccountEditModal.find('[name=ebayEditStep2]');
+			var $nickNameInput = $ebayEditStep1.find('[name=nickNameInput]');
+			var $sessIDInput = $ebayEditStep1.find('[name=sessIDInput]');
+			var $nickNameTips = $ebayEditStep1.find('[name=nickNameTips]');
+			var $finishAuthBtn = $ebayEditStep2.find('[name=finishAuthBtn]');
+			// 初始化账号编辑Modal
+			(function initEbayAccountEditModal(){
+				var countDown = 0;
+				var newWindow = null;
+				// 按钮倒计时函数
+				function finishBtnCountDown(){
+					if(countDown > 0){
+						if(!$finishAuthBtn.hasClass('disabled')){
+							$finishAuthBtn.addClass('disabled');
+						}
+						$finishAuthBtn.text('请稍候... '+countDown+'秒');
+						setTimeout(function(){finishBtnCountDown(--countDown);}, 1000);
+						return;
+					}
+					$finishAuthBtn.text('完成授权').removeClass('disabled');
+					return true;
+				}
+
+				// 跳转授权操作函数
+				function redirectToAuth(checkNickName){
+					util.showTips('warning', '请稍后...', 'fast', '20%');
+					newWindow = window.open('public/template/ck1sh/_partials/component/waiting.html?_201506121403');
+					$.get('?r=oms/shebay/geturl', function(data, status){
+						if(status === 'success' && data.status){
+							newWindow.location.href = data.url;
+							$ebayEditStep1.hide();
+							$ebayEditStep2.find('[name=authUrlLink]').attr('href', data.url);
+							$sessIDInput.val(data.sessid);
+							$ebayEditStep2.show();
+							countDown = 10;
+							finishBtnCountDown();
+							return true;
+						}
+						util.showTips('error', data.msg ? data.msg : '请求出错,请重新尝试！');
+						return false;
+					});
+				}
+
+				// “添加账号”按钮点击事件
+				$addAccountBtn.on('click', function(){
+					$nickNameInput.removeClass('error');
+					$ebayEditStep1.find('input').val('');
+					$nickNameTips.text('').hide();
+					$ebayEditStep1.show();
+					$ebayEditStep2.hide();
+					countDown = 0;
+					$ebayAccountEditModal.modal({backdrop: false, show: true});
+				});
+
+				// "登录 eBay 授权"按钮点击事件
+				$ebayEditStep1.on('click', '[name=getAuthUrlBtn]', function(event) {
+					var nickNameValue = $nickNameInput.val();
+					if(!nickNameValue){
+						$nickNameInput.addClass('error');
+						$nickNameTips.text('请输入账号代码！').show();
+						return false;
+					}
+					if(!(/[A-Z0-9]$/).test(nickNameValue) || nickNameValue.length > 8){
+						$nickNameInput.addClass('error');
+						$nickNameTips.text('账号代码只能是不多于8个的大写英文字母或数字！').show();
+						return false;
+					}
+					$.get('?r=oms/shebay/checknickname', {nick_name: nickNameValue}, function(data, status){
+
+					});
+					$.ajax({
+						type: 'get',
+						url: '?r=oms/shebay/checknickname&nick_name='+nickNameValue,
+						async: false,
+						success: function(data){
+							if(data.status){
+								return redirectToAuth();
+							}
+							util.showTips('error', '账号代码已经存在，不能重复！');
+							return false;
+						}
+					});
+				});
+
+				// "完成授权"按钮点击事件
+				$finishAuthBtn.on('click', function(event) {
+					if($finishAuthBtn.hasClass('disabled')){
+						return false;
+					}
+					var nickNameValue = $nickNameInput.val();
+					var sessIdValue = $sessIDInput.val();
+					if(!sessIdValue){
+						util.showTips('error', '您的授权操作存在错误，请重新操作！');
+						return false;
+					}
+					$finishAuthBtn.text('数据同步中...').addClass('disabled');
+					$.get('?r=oms/shebay/fetch', {nick: nickNameValue, sessid: sessIdValue}, 
+						function(data, status){
+							if(status === 'success'){
+								if(data.status){
+									$ebayAccountEditModal.modal('toggle');
+									util.showTips('success', '账号授权成功！');
+									setTimeout(function(){window.location.reload();}, 3000);
+									return true;
+								}
+							}
+							$finishAuthBtn.text('完成授权').removeClass('disabled');
+							util.showTips('error', '操作失败,请重新尝试！');
+							return false;
+					});
+				});
+
+				// "重新授权"按钮点击事件
+				$('a[name=reFetch]').on('click', function(){
+					var self = $(this);
+					var currentId = self.data('aid');
+					var currentNickName = $('[name=editInput][data-aid='+currentId+']').val();
+					$nickNameInput.val(currentNickName).removeClass('error');
+					$ebayEditStep1.find('input').val('');
+					$nickNameTips.text('').hide();
+					$ebayEditStep1.show();
+					$ebayEditStep2.hide();
+					countDown = 0;
+					$ebayAccountEditModal.modal({backdrop: false, show: true});
+					redirectToAuth();
+				});
+			})();
+
+			// 初始化账号代码快速编辑组件
+			(function initEbaNickNameQuickEdit(){
+				// 账号昵称“编辑”按钮
+				$('[name=editBtn]').on('click', function(){
+					var self = $(this);
+					var parent = self.parent('td');
+					self.hide();
+					parent.find('[name=displayNickName]').hide();
+					parent.find('[name=editInput]').show();
+					parent.find('[name=editSaveBtn]').show();
+					parent.find('[name=editCancelBtn]').show();
+				});
+
+				// 账号昵称“取消”按钮
+				$('[name=editCancelBtn]').on('click', function(){
+					var self = $(this);
+					var parent = self.parent('td');
+					var $editInput = parent.find('[name=editInput]');
+					var $displayNickName = parent.find('[name=displayNickName]');
+					self.hide();
+					$displayNickName.show();
+					parent.find('[name=editBtn]').show();
+					parent.find('[name=editSaveBtn]').hide();
+					$editInput.removeClass('error').hide();
+				});
+
+				// 账号昵称“保存”按钮
+				$('[name=editSaveBtn]').on('click', function(){
+					var self = $(this);
+					var parent = self.parent('td');
+					var $editInput = parent.find('[name=editInput]');
+					var $displayNickName = parent.find('[name=displayNickName]');
+
+					// Ajax请求处理
+					var aid = self.data('aid');
+					var nickName = $editInput.val();
+					if(!(/[A-Z0-9]$/).test($editInput.val()) || $editInput.val().length > 8){
+						$editInput.addClass('error');
+						util.showTips('error', '账号代码只能是不多于8个的大写英文字母或数字！');
+						return false;
+					}
+
+					// 若内容有改动,则提交保存
+					if($displayNickName.text() === $editInput.val()){
+						util.showTips('warning', '没有任何更改!');
+						return false;
+					}
+
+					$.post('?r=oms/shebay/update', {aid: aid, nick: nickName}, 
+						function(data, status){
+							if(status === 'success'){
+								if(data.status){
+									$displayNickName.text($editInput.val());
+									// 渲染效果
+									self.hide();
+									$editInput.removeClass('error').hide();
+									$displayNickName.show();
+									parent.find('[name=editCancelBtn]').hide();
+									parent.find('[name=editBtn]').show();
+								} else {
+									$editInput.addClass('error');
+								}
+								util.showTips(data.status ? 'success' : 'error', data.msg);
+								return data.status;
+							}
+							util.showTips('error', '请求出错,请重新尝试！');
+							return false;
+					});
+				});
+			})();
+		});
+	</script>
+	{/literal}
+</body>
+</html>

@@ -1,0 +1,238 @@
+{include file='ck1sh/_partials/head_inc.html'}
+<body>
+	<div class="loading"></div>
+	<input id="platform" value="{$platform}" style="display: none;" />
+	<!-- 导出订单弹窗 start-->
+	<div id="exportOrdrer" class="modal TCCONBorTop hide fade">
+	  <div class="modal-header">
+	    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	    <h3 id="myModalLabel">导出订单信息</h3>
+	  </div>
+	  <div class="modal-body">
+	     <p><a href="?r=oms/shorder/exportcustom&platform={$platform}">自定义导出表格列»</a></p> 
+		<p><form>
+			<label id="labelAllOrder" style="margin-right:20px;">
+				<input id="explodeDelOrder" type="radio" name="pageType" value="classic_a4" checked>
+				<span id="unsignedApk">导出未导出订单</span>
+			</label>
+			<label><input type="radio" id="explodeChooseOrder" name="pageType" value="classic_label">导出所选订单</label>
+			<br/><br/>
+			<p>注意：导出未导出订单时，一次只能导出4000条。如若超出请分次导出</p>
+		</form></p>
+	  </div>
+	  <div class="modal-footer">
+	    <button class="btn btn-primary" id="downExportOrder">下载</button>
+	    <button class="btn" data-dismiss="modal" aria-hidden="true">取消</button>
+	  </div>
+	</div>
+	<!-- 导出订单弹窗 end-->
+	<div class="wrap">
+	    <ul class="breadcrumb" style="background-color: transparent;">
+		    <li><a href="http://demo.chukou1.cn/Client/Home/Home.aspx">首页</a>&nbsp;<span class="divider">/</span></li>
+		    <li><a href="?r=oms/home">Selling Helper</a>&nbsp;<span class="divider">/</span></li>
+		    <li><a href="?r=oms/shorder/normal&platform={$platform}">{$platformName}</a>&nbsp;<span class="divider">/</span></li>
+		    <li class="active">待发货订单</li>
+	    </ul>
+		<div class="tabHead">
+			<ul>
+				<li><a href="?r=oms/shorder/normal&platform={$platform}" class="tabActive">待发货订单</a></li>
+				<li><a href="?r=oms/shorder/shipped&platform={$platform}">已发货订单</a></li>
+				<li><a href="?r=oms/shorder/discarded&platform={$platform}">已撤销订单</a></li>
+			</ul>
+			<div class="tabHeadRight">
+			    {if $isAutoDownOrder}
+			        <a class="btn btn-primary" id="syncOrderBtn" title="同步订单" href="javascript:;">
+			        	<i class="icon icon-refresh icon-white"></i> 同步订单</a>
+		        {else}
+		    		<a href="?r=oms/shorder/uploadorder&platform={$platform}&type=upload" class="btn btn-primary">
+		    			<i class="icon icon-arrow-up icon-white"></i> 上传订单</a>
+			    {/if}
+				<a href="?r=oms/shaccount/manage&platform={$platform}" class="btn"><i class="icon icon-lock"></i> 账号管理</a>
+				<a href="?r=oms/shorder/setting&platform={$platform}" class="btn"><i class="fa fa-cogs"></i> 设置</a>
+				<a href="?r=oms/shorder/help&platform={$platform}" class="btn" target="_blank"><i class="icon icon-question-sign"></i> 帮助</a>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<div class="content">
+			<div class="tabBody">
+				<div class="tabBodyHead">
+					<!-- 普通搜索框组件 -->
+					<div class="search" id="normalSearchBar">
+						<!-- 发货服务选项框 start-->
+						<div class="btn-group pull-left">
+							<a class="btn span1" name="displayName" data-toggle="dropdown">发货服务</a>
+							<a class="btn dropdown-toggle" data-toggle="dropdown">
+								<span class="caret"></span>
+							</a>
+							<ul class="dropdown-menu">
+								<li class="active">
+									<a data-iname="shipServiceOption" href="javascript:;" data-value="">发货服务</a></li>
+								{foreach from=$normalSearchSet.shipServiceOptions key=value item=name}
+								<li>
+									<a data-iname="shipServiceOption" href="javascript:;" data-value="{$value}">{$name}</a></li>
+								{/foreach}
+							</ul>
+						</div>
+						<!-- 发货服务选项框 end-->
+						{if $normalSearchSet.buyerSelectedOptions}
+						<!-- 买家选择物流 start-->
+						<div class="btn-group pull-left">
+							<a class="btn span2" name="displayName" data-toggle="dropdown" style="overflow:hidden;">买家选择物流</a>
+							<a class="btn dropdown-toggle" data-toggle="dropdown">
+								<span class="caret"></span>
+							</a>
+							<ul class="dropdown-menu">
+                                <li class="active">
+                                	<a data-iname="buyerSelectedOption" href="javascript:;" data-value="">买家选择物流</a></li>
+                                {foreach from=$normalSearchSet.buyerSelectedOptions key=value item=name}
+								<li>
+									<a data-iname="buyerSelectedOption" href="javascript:;" data-value="{$value}">{$name}</a></li>
+								{/foreach}
+							</ul>
+						</div>
+						<!-- 买家选择物流 end-->
+						{/if}
+						<form class="search-form pull-left" name="normalSearchForm" action="javascript:;">
+							<div class="input-append">
+								<!-- 普通查询关键词 start -->
+								<div class="btn-group">
+									<a class="btn span1-2 dropdown-toggle" data-toggle="dropdown">
+										<!-- 取第一个 -->
+										{foreach from=$normalSearchSet.normalSearchKeyOptions key=value item=name name=fun}
+											{if $smarty.foreach.fun.first}
+											<span class="pull-left" name="displayName">{$name}</span>
+											{/if}
+										{/foreach}
+										<span class="caret pull-right"></span>
+									</a>
+									<ul class="dropdown-menu">
+										{foreach from=$normalSearchSet.normalSearchKeyOptions key=value item=name name=fun}
+										<li class="{if $smarty.foreach.fun.first}active{/if}">
+											<a data-iname="normalSearchKey" href="javascript:;" data-value="{$value}">{$name}</a></li>
+										{/foreach}
+									</ul>
+								</div>
+								<!-- 普通查询关键词 end -->
+								<!-- 发货服务选中值，默认未选值为空 -->
+								<input data-postkey="seller_selected" name="shipServiceOption" type="hidden" value="">
+								<!-- 买家选择物流服务选中值，默认未选值为空 -->
+								<input data-postkey="buyer_selected" name="buyerSelectedOption" type="hidden" value="">
+								<!-- 查询关键词, 默认选中第一个 -->
+								{foreach from=$normalSearchSet.normalSearchKeyOptions key=value item=name name=keyword}
+									{if $smarty.foreach.keyword.first}
+									<input data-postkey="keyword" name="normalSearchKey" value="{$value}" type="hidden" />
+									{/if}
+								{/foreach}
+								<input data-postkey="keyword_value" type="text" value="" placeholder="查询关键字(选填)"/>
+								<a href="javascript:;" name="normalSearchButton" data-filter="{$normalSearchSet.filter}" class="btn btn-primary">
+									<i class="icon icon-search icon-white"></i> 查询</a>
+							</div>
+						</form>
+					</div>
+					<!-- 高级搜索按钮 -->
+					<div class="search">
+						<a id="advancedSearchBtn" href="javascript:;" class="btn" style="margin-left:15px;">
+							<i class="fa fa-sliders"></i> 高级查询</a>
+					</div>
+					<div class="clear"></div>
+					<!-- 单条件搜索按钮组 -->
+					<div class="sel">
+						<div class="pull-left" id="singleFilterOptionsForm">
+							<ul class="nav nav-pills">
+								{foreach from=$singleFilterSet.options key=cond item=option name=cond}
+								<li class="{if $smarty.foreach.cond.first}active{/if}"><!-- 默认选择显示全部订单 -->
+									<a href="javascript:;" data-filter="{$singleFilterSet.filter}" data-cond="{$cond}"
+										name="singleSearchBtn">{$option}</a></li>
+								{/foreach}
+							</ul>
+						</div>
+						<div class="pull-right">
+							<div class="btn-group" name="shippingTypeOptions" title="选择发货方式">
+								<a class="btn span1-2 btn-warning" data-toggle="dropdown">选择发货服务</a>
+								<a class="btn dropdown-toggle btn-warning" data-toggle="dropdown">
+									<span class="caret"></span>
+								</a>
+								<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu" style="text-align: left;">
+									{foreach from=$shippingTypeOptions key=serviceType item=serviceName}
+									<li><a href="javascript:;" name="shippingTypeButton" data-service="{$serviceType}">{$serviceName}</a></li>
+									{/foreach}
+								</ul>
+							</div>
+							<a name="normalOrderShipping" class="btn btn-warning" title="确认发货">确认发货</a>
+							<a id="normalOrderExport" class="btn btn-warning" title="导出订单">导出订单</a>
+							<div class="btn-group" title="撤销订单">
+								<a class="btn btn-warning" data-toggle="dropdown">撤销订单</a>
+								<a class="btn dropdown-toggle btn-warning" data-toggle="dropdown">
+									<span class="caret"></span>
+								</a>
+								<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu" style="text-align: left; min-width: 120px;">
+									{foreach from=$orderDiscardOptions key=value item=name}
+									<li><a href="javascript:;" name="normalOrderDiscard" data-value="{$value}">{$name}</a></li>
+									{/foreach}
+									<li class="disabled"><a href="javascript:;" style="cursor:not-allowed;">其他</a></li>
+								</ul>
+							</div>
+						</div>
+						<div class="clear"></div>
+					</div>
+				</div>
+				<div class="tabBodyCon">
+					<table class="table table-striped table-condensed table-hover oms-order-table normalTable">
+						<colgroup>
+							<col width="60px"/>
+							<col />
+							<col width="120px"/>
+							<col />
+							<col />
+							<col />
+							<col />
+							<col />
+							<col width="50px"/>
+							<col width="50px"/>
+							<col width="60px"/>
+							<col width="90px"/>
+							<col width="100px"/>
+							<col width="70px"/>
+						</colgroup>
+						<thead id="orderDisplayTableTitle">
+							<tr>
+								<th class="span0-2">
+									<label>全选<input type="checkbox" /></label>
+								</th>
+								<th class="">订 单 号</th>
+								<th class="">付款时间</th>
+								<th class="">店 铺</th>
+								<th class="">买家Email</th>
+								<th class="">国 家</th>
+								<th class="">买家选择物流</th>
+								<th class="">发货服务</th>
+								<th class="">挂 号</th>
+								<th class="">数 量</th>
+								<th class="">重 量(g)</th>
+								<th class="">申报价值</th>
+								<th class="">申报名称</th>
+								<th class="">操 作</th>
+							</tr>
+						</thead>
+						<tbody id="orderDisplayTableList">
+							<tr><td colspan="14" align="center">&hellip;</td></tr>
+						</tbody>
+					</table>
+					<!-- 分页目录条 -->
+					<div class="pagination pagination-small pagination-right" id="paginationNavBar">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- advance search modal import start-->
+	{include file='ck1sh/order/advance_search.html'}
+	<!-- advance search modal import end-->
+	<!-- sync order modal import start-->
+	{include file='ck1sh/order/sync_order.html'}
+	<!-- sync order modal import end-->
+	{literal}
+	<script>require(['normal']);</script>
+	{/literal}
+</body>
+</html>

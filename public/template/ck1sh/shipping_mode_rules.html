@@ -1,0 +1,292 @@
+{include file='ck1sh/_partials/head_inc.html'}
+<body>
+	<input id="category" value="{$category}" type="hidden">
+	<!--顶部警告框-->
+	<div class="topWarn"></div>
+	<!--单个添加申报匹配规则弹窗--start-->
+	<div class="modal SMRulesTCOne hide fade">
+		<div class="TCCON SMRulesTCOneCon">
+			<h2>
+				<span>添加申报价值匹配规则</span>
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+			</h2>
+			<div class="SMRulesTCOneBody">
+				<p>
+					<span>申报价值范围(USD)</span>
+					<input type="text" name="" />-<input type="text" name="" />
+				</p>
+				<p>
+					<span>重量范围(g)</span>
+					<input type="text" name="" />-<input type="text" name="" />
+				</p>
+				<p>
+					<span>目的国家</span>
+					<textarea></textarea>
+					<b>一行输入一个国家名称，最多可以输入20个。</b>
+				</p>
+				<p>
+					<span>买家物流选择</span>
+					<textarea></textarea>
+					<b>一行输入一个买家物流选择，最多可以输入20个。</b>
+				</p>
+				<p>
+					<span>发货方式</span>
+					<select name="" id="">
+						<option value="1">中国直发</option>
+						<option value="2">海外仓储</option>
+					</select>
+				</p>
+
+			</div>
+			<div class="TCFooter">
+				<span></span>
+				<input type="button" value="保存" class="btn btn-primary" checked/>
+				<button class="btn" data-dismiss="modal" aria-hidden="true">取消</button>
+			</div>
+		</div>
+	</div>
+	<!--单个添加申报匹配规则弹窗--end-->
+
+	<!--批量添加申报规则弹窗--start-->
+	<div class="SMRulesTCTwo TCGB">
+		<div class="SMRulesTCTwoCon TCCON">
+			<h2>
+				<span>批量添加发货方式规则</span>
+				<b class="TCCloseBtn">关闭</b>
+			</h2>
+			<div class="SMRulesTCTwoBody">
+				<p>
+					<input type="file" name="" id="" />
+					<input type="button" value="上传" class="btn btn-primary" />
+				</p>
+				<p>温馨提示</p>
+				<p>excel每行代表一个细规则，可按需求自主添加行；</p>
+			</div>
+		</div>
+	</div>
+	<!--批量添加申报规则弹窗--end-->
+	<div class="wrap">
+		<ul class="breadcrumb" style="background-color: transparent;">
+			<li><a href="http://demo.chukou1.cn/Client/Home/Home.aspx">首页</a>&nbsp;<span class="divider">/</span></li>
+			<li><a href="?r=oms/home">Selling Helper</a>&nbsp;<span class="divider">/</span></li>
+			<li class="active"><a href="?r=oms/shshipping/matchShipWay">发货方式设置 </a>/ </li>
+			<li class="active"> 发货方式规则</li>
+		</ul>
+		<div class="tabHead"></div>
+			<span>
+				{if ($category == 1)} 买家选择物流智能匹配规则
+			 　 {elseif ($category == 2)} 申报价值智能匹配
+			　  {elseif ($category == 3)} SKU智能匹配
+			 　 {elseif ($category == 4)} 重量智能匹配
+			　  {/if}
+			</span>
+		<div class="content">
+			<div class="tabBody">
+				<div class="tabBodyHead">
+					<div class="sel">
+						<div class="selLeft">
+							<form class='form-search'>
+								<select name="" id="shipWay" style="width:100px;">
+									<option value="0">发货方式</option>
+									<option value="1">中国直发</option>
+									<option value="2">海外仓库</option>
+								</select>
+								<div class='input-append'>
+									<div id="search" class="btn-group">
+										<button id="keyword" class="btn dropdown-toggle" data-toggle="dropdown">
+											关键字
+											<span class="caret"></span>
+										</button>
+										<ul class="dropdown-menu">
+											{foreach from = $search key = k item = i}
+											<li><a href='#'data-id="{$k}">{$i}</a>
+											</li>
+											{/foreach}		
+										</ul>
+									</div>
+									<input type='text' name="keywordValue" class='search-query'>
+									<button type='button' class='btn btn-primary searchBtn'> 查 询 </button>
+								</div>
+							</form>
+						</div>
+						<div class="selRight">
+							<a class="btn btn-warning addMatchRule">单个添加</a>
+							<a class="btn btn-warning">批量添加</a>
+							<a class="btn btn-warning">删除</a>
+						</div>
+						<div class="clear"></div>
+					</div>
+				</div>
+				<div class="tabBodyCon">
+					<table class="table table-striped table-hover">
+						{if ($category == 1)}
+							<thead>
+								<tr>
+									<th>
+										<input type="checkbox" /> 全选
+									</th>
+									<th>发货方式</th>
+									<th>SKU</th>
+									<th>国家</th>
+									<th>买家选择物流</th>
+									<th width="10%">操作</th>
+								</tr>
+							</thead>
+						{elseif ($category == 4)}
+							<thead>
+								<tr>
+									<th>
+										<input type="checkbox" /> 全选
+									</th>
+									<th>发货方式</th>
+									<th>买家选择物流</th>
+									<th>产品重量范围(g)</th>
+									<th>申报价值范围(USD)</th>
+									<th>国家</th>
+									<th width="10%">操作</th>
+								</tr>
+							</thead>
+						{else}
+						<thead>
+							<tr>
+								<th>
+									<input type="checkbox" /> 全选
+								</th>
+								<th>发货方式</th>
+								<th>产品重量范围(g)</th>
+								<th>申报价值范围(USD)</th>
+								<th>国家</th>
+								<th>买家选择物流</th>
+								<th width="10%">操作</th>
+							</tr>
+						</thead>
+						{/if}
+						<tbody>
+							<!-- <tr data-id=''>
+								<td>
+									<input type="checkbox" />
+								</td>
+								<td>
+									<span>CND-大陆DHL 挂号</span>
+								</td>
+								<td>
+									<span>0.00 - 40.00</span>
+								</td>
+								<td>
+									<span>0 - 4000</span>
+								</td>
+								<td>
+									<span>Afghanistan</span>
+								</td>
+								<td>
+									<span>China Post Air Mail</span>
+								</td>
+								<td width="10%">
+									<a href="javascript:;" class="btn btn-mini">编辑</a>
+									<a href="javascript:;" class="btn btn-mini">删除</a>
+								</td>
+							</tr> -->
+						</tbody>
+					</table>
+					<!--页数-->
+					<div class="pagination pagination-right">
+						<ul id="Pager1">
+							<li class="disabled"><a>首页</a>
+							</li>
+							<li class="disabled"><a>&lt;&lt;</a>
+							</li>
+							<li class="active"><a>1</a>
+							</li>
+							<li><a href="?Page=2&amp;psize=15">2</a>
+							</li>
+							<li><a href="?Page=3&amp;psize=15">3</a>
+							</li>
+							<li><a href="?Page=4&amp;psize=15">4</a>
+							</li>
+							<li><a href="?Page=5&amp;psize=15">5</a>
+							</li>
+							<li><a href="?Page=6&amp;psize=15">...</a>
+							</li>
+							<li><a href="?Page=2&amp;psize=15">&gt;&gt;</a>
+							</li>
+							<li><a href="?Page=68&amp;psize=15">尾页</a>
+							</li>
+							<li class="select-size">每页
+								<select onchange="location.href=location.href + (location.href.indexOf('?') != -1 ? '&amp;' : '?') + 'psize=' + this.value">
+									<option selected="selected" value="15">15</option>
+									<option value="30">30</option>
+									<option value="50">50</option>
+									<option value="100">100</option>
+									<option value="150">150</option>
+									<option value="200">200</option>
+									<option value="500">500</option>
+								</select>
+								条，共
+								<strong>68</strong> 页
+								<strong>1015</strong> 条
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="messagebox" class="modal modal-msgbox modal-dialog" style="display: none;">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+			<h3>编辑买家选择物流匹配规则</h3>
+		</div>
+		<div class="modal-body">
+			<h4>匹配的条件信息</h4>
+			<form action="#">
+				<p><span><i>* </i>买家物流选择</span><textarea></textarea><q>一行输入一个买家物流选择，最多可以输入20个。</q></p>
+				<p><span>重量范围(g)</span><input type="text"> - <input type="text"></p>
+				<p><span>申报价值范围(USD)</span><input type="text"> - <input type="text"></p>
+				<p><span>产品数量范围</span><input type="text"> - <input type="text"></p>
+				<p><span>目的国家</span><textarea></textarea><q><button type="button" class="btn">选择国家</button><br>一行输入一个国家名字，最多可以输入20个。</q></p>
+				<h4>匹配的出口易发货方式</h4>
+				<p><span><i>* </i>发货方式</span><select><option value="0">选择服务</option><option value="1">中国直发</option><option value="2">海外仓库</option></select><label>已选择</label></p>
+				<p class="btn-box"><input class="btn btn-primary" type="submit" value="保存"> <input type="reset" class="btn" value="取消"></button></p>
+			</form>
+		</div>
+		<div class="modal-footer"></div>
+	</div>
+	{literal}
+	<script>
+		"use strict";
+		require(['util'], function(util){
+			$(function() {
+				$('body').attr('id', 'shippingModeRules');
+				// 点击添加按钮弹窗
+				$('.addMatchRule').on('click', function() {
+					$('.SMRulesTCOne').modal('show');
+				});
+				// 添加SKU关闭弹窗
+				util.TCClose($('.addProductMatchTC .TCCloseBtn'), $('.addProductMatchTC'));
+				// 复选框全选
+				util.checkAllBoxes($('.tabBodyCon table thead :checkbox'), $('.tabBodyCon table tbody :checkbox'));
+				// 点击匹配到订单弹窗
+				$('.matchingOrder').on('click',function(){
+					$('.matchingOrderTC').slideDown(200);
+				});
+
+				var iCategory = numberClean($("#category").val());
+				var iShipWay = $('#shipWay').val();
+				var iKey = $('#search #keyword li').data('id');
+				var aKeyValue = $('#search').find('[name="keywordValue"]').val();
+				$.ajax({
+					type: 'post',
+					url: '?r=oms/Shshipping/ListMatchingRules',
+					data: {shipping: {shipping_type: iShipWay}, keyword: {iKey: aKeyValue}, category: iCategory},
+					success: function(data){
+						console.log(data);
+					}
+
+				});
+			});
+		});
+	</script>
+	{/literal}
+</body>
+</html>

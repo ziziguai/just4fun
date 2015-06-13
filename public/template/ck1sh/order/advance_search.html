@@ -1,0 +1,174 @@
+<!--高级查询弹窗-->
+<div class="modal TCCONBorTop hide" id="advanceSearchModal" style="width: 450px;">
+	<div class="modal-header">
+		<a class="close" data-dismiss="modal" aria-hidden="true">&times;</a>
+		<h4>高级查询</h4>
+	</div>
+	<div class="modal-body" style="height: 350px;">
+		<!-- Search options groups start-->
+	    <div class="control-group">
+			<!-- Search options groups: shipping services start-->
+	    	<div class="btn-group">
+				<a class="btn span1" name="displayName" data-toggle="dropdown">发货服务</a>
+				<a class="btn dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
+				<ul class="dropdown-menu">
+					<li class="active">
+						<a data-iname="shipServiceOption" href="javascript:;" data-value="">发货服务</a></li>
+					{foreach from=$advSearchSet.shipServiceOptions key=value item=name}
+					<li>
+						<a data-iname="shipServiceOption" href="javascript:;" data-value="{$value}">{$name}</a></li>
+					{/foreach}
+				</ul>
+				<!-- 发货服务选中值，默认未选值为空 -->
+				<input data-postkey="seller_selected" name="shipServiceOption" type="hidden" value="">
+			</div>
+			<!-- Search options groups: shipping services end-->
+			{if $advSearchSet.buyerSelectedOptions}
+			<!-- Search options groups: buyer selected services start-->
+			<div class="btn-group">
+				<a class="btn span2" name="displayName" data-toggle="dropdown" style="overflow:hidden;">买家选择物流</a>
+				<a class="btn dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
+				<ul class="dropdown-menu">
+                    <li class="active">
+                    	<a data-iname="buyerSelectedOption" href="javascript:;" data-value="">买家选择物流</a></li>
+                    {foreach from=$advSearchSet.buyerSelectedOptions key=value item=name}
+					<li>
+						<a data-iname="buyerSelectedOption" href="javascript:;" data-value="{$value}">{$name}</a></li>
+					{/foreach}
+				</ul>
+				<!-- 买家选择物流服务选中值，默认未选值为空 -->
+				<input data-postkey="buyer_selected" name="buyerSelectedOption" type="hidden" value="">
+			</div>
+			<!-- Search options groups: buyer selected services end-->
+			{/if}
+		</div>
+		<!-- Search options groups end-->
+		<!-- Search condition: keywords. start-->
+	    <div class="input-prepend">
+		    <div class="btn-group">
+			    <a class="btn dropdown-toggle span2" data-toggle="dropdown">
+				    <!-- 取第一个 -->
+					{foreach from=$advSearchSet.advSearchKeyOptions key=value item=name name=keyword}
+						{if $smarty.foreach.keyword.first}
+						<span class="pull-left" name="displayName">{$name}</span>
+						{/if}
+					{/foreach}
+				    <span class="caret pull-right"></span>
+			    </a>
+			    <ul class="dropdown-menu">
+			    	{foreach from=$advSearchSet.advSearchKeyOptions key=value item=name name=keyword}
+					<li class="{if $smarty.foreach.keyword.first}active{/if}">
+						<a data-iname="advSearchKey" href="javascript:;" data-value="{$value}">{$name}</a></li>
+					{/foreach}
+				</ul>
+		    </div>
+		    <!-- 查询关键词, 默认选中第一个 -->
+			{foreach from=$advSearchSet.advSearchKeyOptions key=value item=name name=keyword}
+				{if $smarty.foreach.keyword.first}
+				<input data-postkey="keyword" name="advSearchKey" value="{$value}" type="hidden" />
+				{/if}
+			{/foreach}
+			<!-- 查询关键词内容, 默认未填为空 -->
+		    <input class="span2-2" data-postkey="keyword_value" type="text"  value="" placeholder="查询关键字(选填)">
+	    </div>
+		<!-- Search condition: keywords. end-->
+		<!-- Search condition: item quantity of order. start-->
+	    <div class="input-prepend input-append">
+		    <div class="btn-group">
+			    <a class="btn dropdown-toggle span2" data-toggle="dropdown">
+				    <span class="pull-left">数量</span>
+				    <span class="caret pull-right" style="margin-left: 8px;"></span>
+				    {foreach from=$advSearchSet.cmpOPCN item=name name=cmpOP}
+						{if  $smarty.foreach.cmpOP.first}
+					    <span class="pull-right" name="displayName">{$name}</span>
+						{/if}
+					{/foreach}
+			    </a>
+			    <ul class="dropdown-menu">
+			    	{foreach from=$advSearchSet.cmpOPCN key=opKey item=opName name=cmpOP}
+			    	<li class="{if $smarty.foreach.cmpOP.first}active{/if}">
+						<a href="javascript:;" data-iname="quantityOpOption" data-value="{$opKey}">&nbsp;
+							<span class="on-right">{$opName}</span></a></li>
+			    	{/foreach}
+				</ul>
+		    </div>
+		    <!-- 数量比较符, 默认未选为空 -->
+		    {foreach from=$advSearchSet.cmpOPCN item=name name=cmpOP}
+				{if  $smarty.foreach.cmpOP.first}
+			    <input data-postkey="quantity_op" type="hidden" value="{$name}" name="quantityOpOption">
+			    {/if}
+			{/foreach}
+		    <!-- 数量比较值, 默认未填为空 -->
+		    <input class="span2-2" data-postkey="quantity_value" type="text"  value="" placeholder="0(选填)">
+		    <span class="add-on">&nbsp;&nbsp;包&nbsp;&nbsp;</span>
+	    </div>
+		<!-- Search condition: item quantity of order. end-->
+	    <!-- Search condition: weight of order. start-->
+	    <div class="input-prepend input-append">
+		    <div class="btn-group">
+			    <a class="btn dropdown-toggle span2" data-toggle="dropdown">
+				    <span class="pull-left">重量</span>
+				    <span class="caret pull-right" style="margin-left: 8px;"></span>
+				    {foreach from=$advSearchSet.cmpOPCN item=name name=cmpOP}
+						{if  $smarty.foreach.cmpOP.first}
+					    <span class="pull-right" name="displayName">{$name}</span>
+						{/if}
+					{/foreach}
+			    </a>
+			    <ul class="dropdown-menu">
+					{foreach from=$advSearchSet.cmpOPCN key=opKey item=opName name=cmpOP}
+			    	<li class="{if $smarty.foreach.cmpOP.first}active{/if}">
+						<a href="javascript:;" data-iname="weightOpOption" data-value="{$opKey}">&nbsp;
+							<span class="on-right">{$opName}</span></a></li>
+			    	{/foreach}
+				</ul>
+		    </div>
+		    <!-- 重量比较符, 默认未选为空 -->
+		    {foreach from=$advSearchSet.cmpOPCN item=name name=cmpOP}
+				{if  $smarty.foreach.cmpOP.first}
+			    <input data-postkey="weight_op" type="hidden" value="{$name}" name="weightOpOption">
+			    {/if}
+			{/foreach}
+		    <!-- 重量比较值, 默认未填为空 -->
+		    <input class="span2-2" data-postkey="weight_value" type="text"  value="" placeholder="0.00(选填)">
+		    <span class="add-on">&nbsp;&nbsp;克&nbsp;&nbsp;</span>
+	    </div>
+		<!-- Search condition: weight of order. end-->
+		<!-- Search condition: declare value of order. start-->
+	    <div class="input-prepend input-append">
+		    <div class="btn-group">
+			    <a class="btn dropdown-toggle span2" data-toggle="dropdown">
+				    <span class="pull-left">申报价值</span>
+				    <span class="caret pull-right" style="margin-left: 8px;"></span>
+				    {foreach from=$advSearchSet.cmpOPCN item=name name=cmpOP}
+						{if  $smarty.foreach.cmpOP.first}
+					    <span class="pull-right" name="displayName">{$name}</span>
+						{/if}
+					{/foreach}
+			    </a>
+			    <ul class="dropdown-menu">
+					{foreach from=$advSearchSet.cmpOPCN key=opKey item=opName name=cmpOP}
+			    	<li class="{if $smarty.foreach.cmpOP.first}active{/if}">
+						<a href="javascript:;" data-iname="declareOpOption" data-value="{$opKey}">&nbsp;
+							<span class="on-right">{$opName}</span></a></li>
+			    	{/foreach}
+				</ul>
+		    </div>
+		    <!-- 申报价值比较符, 默认未选为空 -->
+			{foreach from=$advSearchSet.cmpOPCN item=name name=cmpOP}
+				{if  $smarty.foreach.cmpOP.first}
+			    <input data-postkey="declare_op" type="hidden" value="{$name}" name="declareOpOption">
+			    {/if}
+			{/foreach}
+		    <!-- 申报价值比较值, 默认未填为空 -->
+		    <input class="span2-2" data-postkey="declare_value" type="text"  value="" placeholder="0.00(选填)">
+		    <span class="add-on">USD</span>
+	    </div>
+		<!-- Search condition: declare value of order. end-->
+	</div>
+	<div class="modal-footer">
+		<a data-dismiss="modal" aria-hidden="true" class="btn" >取消</a>
+		<a data-dismiss="modal" aria-hidden="true" name="advSearchBtn" data-filter="{$advSearchSet.filter}" 
+			class="btn btn-primary"><i class="icon icon-search icon-white"></i>  查询</a>
+	</div>
+</div>
